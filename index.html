@@ -205,12 +205,13 @@
         .nav-pills .nav-link {
             color: rgba(255,255,255,0.7);
             background-color: rgba(255,255,255,0.1);
-            margin-right: 10px;
+            margin-right: 5px; /* Sedikit margin untuk desktop */
             border: 1px solid rgba(255,255,255,0.1);
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             border-radius: 50px;
-            padding: 5px 20px;
+            padding: 5px 15px;
+            white-space: nowrap;
         }
         .nav-pills .nav-link.active {
             background-color: var(--accent-cyan);
@@ -351,6 +352,32 @@
                 display: block;
             }
         }
+
+        /* --- UPDATE KHUSUS TOMBOL TAB MOBILE AGAR PROPORSIONAL --- */
+        @media (max-width: 576px) {
+            /* Wadah tombol jadi Flexbox dengan wrap */
+            .card-header-custom .nav-pills {
+                display: flex;
+                flex-wrap: wrap; /* Tombol boleh turun ke bawah */
+                gap: 8px; /* Jarak antar tombol */
+                justify-content: center;
+            }
+
+            /* Setiap item tombol mengambil sekitar 48% lebar (agar jadi 2 kolom) */
+            .card-header-custom .nav-item {
+                flex: 1 0 45%; 
+                text-align: center;
+            }
+
+            /* Style tombol di dalam item */
+            .card-header-custom .nav-link {
+                margin-right: 0 !important; /* Hapus margin kanan bawaan */
+                width: 100%; /* Penuhi lebar item */
+                display: block;
+                font-size: 0.8rem;
+                padding: 8px 5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -444,10 +471,16 @@
                             </div>
                             <ul class="nav nav-pills" id="leaderboardTab" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="l-10k-tab" data-bs-toggle="pill" data-bs-target="#l-10k" type="button" role="tab">10K Run</button>
+                                    <button class="nav-link active" id="men10k-tab" data-bs-toggle="pill" data-bs-target="#men10k" type="button" role="tab">10K Men</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="l-5k-tab" data-bs-toggle="pill" data-bs-target="#l-5k" type="button" role="tab">5K Run</button>
+                                    <button class="nav-link" id="women10k-tab" data-bs-toggle="pill" data-bs-target="#women10k" type="button" role="tab">10K Women</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="men5k-tab" data-bs-toggle="pill" data-bs-target="#men5k" type="button" role="tab">5K Men</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="women5k-tab" data-bs-toggle="pill" data-bs-target="#women5k" type="button" role="tab">5K Women</button>
                                 </li>
                             </ul>
                         </div>
@@ -455,97 +488,70 @@
                         <div class="p-0">
                             <div class="tab-content" id="leaderboardTabContent">
                                 
-                                <div class="tab-pane fade show active" id="l-10k" role="tabpanel">
+                                <div class="tab-pane fade show active" id="men10k" role="tabpanel">
                                     <div class="table-responsive">
                                         <table class="table table-custom mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th class="ps-4">Rank</th>
-                                                    <th>Name</th>
-                                                    <th class="text-end pe-4">Time</th>
-                                                </tr>
-                                            </thead>
+                                            <thead><tr><th class="ps-4">Rank</th><th>Name</th><th class="text-end pe-4">Time</th></tr></thead>
                                             <tbody>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge rank-1">1</span></td>
-                                                    <td class="fw-bold">Andi Saputra</td>
-                                                    <td class="text-end pe-4 font-monospace text-warning">00:35:10</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge rank-2">2</span></td>
-                                                    <td class="fw-bold">Budi Santoso</td>
-                                                    <td class="text-end pe-4 font-monospace">00:36:45</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge rank-3">3</span></td>
-                                                    <td class="fw-bold">Dedi Mulyadi</td>
-                                                    <td class="text-end pe-4 font-monospace">00:37:20</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge">4</span></td>
-                                                    <td>Eko Prasetyo</td>
-                                                    <td class="text-end pe-4 font-monospace">00:38:05</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge">5</span></td>
-                                                    <td>Fajar Nugroho</td>
-                                                    <td class="text-end pe-4 font-monospace">00:38:50</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge">6</span></td>
-                                                    <td>Gilang Ramadhan</td>
-                                                    <td class="text-end pe-4 font-monospace">00:39:15</td>
-                                                </tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-1">1</span></td><td class="fw-bold">Andi Saputra</td><td class="text-end pe-4 font-monospace text-warning">00:35:10</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-2">2</span></td><td class="fw-bold">Budi Santoso</td><td class="text-end pe-4 font-monospace">00:36:45</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-3">3</span></td><td class="fw-bold">Dedi Mulyadi</td><td class="text-end pe-4 font-monospace">00:37:20</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">4</span></td><td>Eko Prasetyo</td><td class="text-end pe-4 font-monospace">00:38:05</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">5</span></td><td>Fajar Nugroho</td><td class="text-end pe-4 font-monospace">00:38:50</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">6</span></td><td>Gilang Ramadhan</td><td class="text-end pe-4 font-monospace">00:39:15</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="women10k" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-custom mb-0">
+                                            <thead><tr><th class="ps-4">Rank</th><th>Name</th><th class="text-end pe-4">Time</th></tr></thead>
+                                            <tbody>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-1">1</span></td><td class="fw-bold">Rina Wijaya</td><td class="text-end pe-4 font-monospace text-warning">00:40:05</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-2">2</span></td><td class="fw-bold">Sari Indah</td><td class="text-end pe-4 font-monospace">00:41:40</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-3">3</span></td><td class="fw-bold">Dewi Sartika</td><td class="text-end pe-4 font-monospace">00:42:30</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">4</span></td><td>Putri Ayu</td><td class="text-end pe-4 font-monospace">00:43:20</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">5</span></td><td>Lina Marlina</td><td class="text-end pe-4 font-monospace">00:44:10</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">6</span></td><td>Maya Safira</td><td class="text-end pe-4 font-monospace">00:45:00</td></tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
                                 
-                                <div class="tab-pane fade" id="l-5k" role="tabpanel">
+                                <div class="tab-pane fade" id="men5k" role="tabpanel">
                                     <div class="table-responsive">
                                         <table class="table table-custom mb-0">
-                                            <thead>
-                                                <tr>
-                                                    <th class="ps-4">Rank</th>
-                                                    <th>Name</th>
-                                                    <th class="text-end pe-4">Time</th>
-                                                </tr>
-                                            </thead>
+                                            <thead><tr><th class="ps-4">Rank</th><th>Name</th><th class="text-end pe-4">Time</th></tr></thead>
                                             <tbody>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge rank-1">1</span></td>
-                                                    <td class="fw-bold">Siti Lestari</td>
-                                                    <td class="text-end pe-4 font-monospace text-warning">00:18:45</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge rank-2">2</span></td>
-                                                    <td class="fw-bold">Rina Kurnia</td>
-                                                    <td class="text-end pe-4 font-monospace">00:19:30</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge rank-3">3</span></td>
-                                                    <td class="fw-bold">Maya Putri</td>
-                                                    <td class="text-end pe-4 font-monospace">00:20:15</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge">4</span></td>
-                                                    <td>Ninda Kirana</td>
-                                                    <td class="text-end pe-4 font-monospace">00:21:00</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge">5</span></td>
-                                                    <td>Olivia Damayanti</td>
-                                                    <td class="text-end pe-4 font-monospace">00:21:45</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="ps-4"><span class="rank-badge">6</span></td>
-                                                    <td>Putri Handayani</td>
-                                                    <td class="text-end pe-4 font-monospace">00:22:20</td>
-                                                </tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-1">1</span></td><td class="fw-bold">Doni Irawan</td><td class="text-end pe-4 font-monospace text-warning">00:18:12</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-2">2</span></td><td class="fw-bold">Erik Tohir</td><td class="text-end pe-4 font-monospace">00:18:30</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-3">3</span></td><td class="fw-bold">Farhan Halim</td><td class="text-end pe-4 font-monospace">00:18:45</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">4</span></td><td>Gatot Kaca</td><td class="text-end pe-4 font-monospace">00:19:10</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">5</span></td><td>Hendra Setiawan</td><td class="text-end pe-4 font-monospace">00:19:35</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">6</span></td><td>Irfan Bachdim</td><td class="text-end pe-4 font-monospace">00:20:00</td></tr>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
+
+                                <div class="tab-pane fade" id="women5k" role="tabpanel">
+                                    <div class="table-responsive">
+                                        <table class="table table-custom mb-0">
+                                            <thead><tr><th class="ps-4">Rank</th><th>Name</th><th class="text-end pe-4">Time</th></tr></thead>
+                                            <tbody>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-1">1</span></td><td class="fw-bold">Siti Aminah</td><td class="text-end pe-4 font-monospace text-warning">00:20:15</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-2">2</span></td><td class="fw-bold">Tantri Kotak</td><td class="text-end pe-4 font-monospace">00:20:40</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge rank-3">3</span></td><td class="fw-bold">Ussy Sulistia</td><td class="text-end pe-4 font-monospace">00:21:00</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">4</span></td><td>Vina Panduwinata</td><td class="text-end pe-4 font-monospace">00:21:30</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">5</span></td><td>Wulan Guritno</td><td class="text-end pe-4 font-monospace">00:21:50</td></tr>
+                                                <tr><td class="ps-4"><span class="rank-badge">6</span></td><td>Xena Warrior</td><td class="text-end pe-4 font-monospace">00:22:20</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
                             </div>
                             
                             <div class="p-3 text-center border-top border-secondary border-opacity-25">
@@ -584,7 +590,7 @@
                                         </div>
                                     </div>
                                     <div class="winner-item shadow-sm mt-3">
-                                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQBjxjgxHO4nTmGwW_C27lLiMCle-ozTl_qa87N0BTf59bwuskpyoVFj5MYlddy1rweZaALTiQwfw0p7k2CI1IychADqu5WTY9J_RNZi_JAMR3FIR29FvS59umDfNFY1WztDnv29wNm-oyGJC0GwFoCvHHGwd3dI80qIjC_EAs_uNjHonKCteAOmsBnUBf/640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(3).webp" class="winner-img" style="border-color: #e83e8c;" alt="Women Winner">
+                                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTCJ22-kaUhZ0LCIROigXlaCUz6cEtpPBFYEoH9sSt5rhABJbtERfjCYn-reF4j6GUEHp2ZJRpBqQW8lrh4JjQcpn17HcYZtgLhrQu90HHZvZpYNQekNU367o1m9xMKy1DvYuDaK1kU_veg5cbMJe-B9pwtakABkBfz0wYRS7VoB-3HwsjVLo6s_TzziFG/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(1).webp" class="winner-img" style="border-color: #e83e8c;" alt="Women Winner">
                                         <div class="flex-grow-1">
                                             <small class="text-danger fw-bold text-uppercase d-block mb-1" style="color: #ff80bf !important; letter-spacing: 1px;">Women's 10K</small>
                                             <h5 class="mb-1 fw-bold">Rina Wijaya</h5>
@@ -595,7 +601,7 @@
 
                                 <div class="tab-pane fade" id="c-5k" role="tabpanel">
                                     <div class="winner-item shadow-sm">
-                                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj_7yqZkol2_oh-DOsILVsPCd4wV11OjAalFSlWtVwgX-ryCIq6eL8swt_xsLkmxpEC4FQYEUFr38libsnOhSPimz7DcWGHpA09petmLf_YWdDVKDHSrZlHV2j3aoYNsmQwmLMJCd2-Qfk2IdjRUlk6beTlQbJVb362F3FjKjs2L2nqBke4V_NTeCDBc816/s704/logo%20fun%20run%202026.webp" class="winner-img" alt="Men Winner 5K">
+                                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQBjxjgxHO4nTmGwW_C27lLiMCle-ozTl_qa87N0BTf59bwuskpyoVFj5MYlddy1rweZaALTiQwfw0p7k2CI1IychADqu5WTY9J_RNZi_JAMR3FIR29FvS59umDfNFY1WztDnv29wNm-oyGJC0GwFoCvHHGwd3dI80qIjC_EAs_uNjHonKCteAOmsBnUBf/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(3).webp" class="winner-img" alt="Men Winner 5K">
                                         <div class="flex-grow-1">
                                             <small class="text-info fw-bold text-uppercase d-block mb-1" style="letter-spacing: 1px;">Men's 5K</small>
                                             <h5 class="mb-1 fw-bold">Doni Irawan</h5>
@@ -684,7 +690,7 @@
                          class="sponsorship-img img-fluid">
                 </div>
             </div>
-            <div class="row justify-content-center">
+             <div class="row justify-content-center">
                 <div class="col-lg-10">
                     <img src="img/sponsorship.webp" 
                          alt="Official Sponsors Waru Turi Fun Run 2026" 
