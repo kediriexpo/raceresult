@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Waru Turi Fun Run 2026</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- COPY STYLE DARI INDEX AGAR KONSISTEN --- */
+        :root {
+            --primary-dark: #001529;
+            --primary-blue: #003366;
+            --bright-blue: #0056b3;
+            --accent-cyan: #0dcaf0;
+            --section-bg-blue: #004080;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--primary-dark);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- PAGE HEADER --- */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--bright-blue) 100%);
+            padding: 100px 0 60px 0;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            right: -50px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(13, 202, 240, 0.15) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 10;
+            color: white;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            border-color: var(--accent-cyan);
+        }
+
+        /* --- FILTER BUTTONS --- */
+        .filter-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: rgba(255,255,255,0.7);
+            padding: 8px 25px;
+            border-radius: 50px;
+            margin: 0 5px 10px 5px;
+            transition: all 0.3s;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--accent-cyan);
+            color: var(--primary-dark);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(13, 202, 240, 0.4);
+        }
+
+        /* --- GALLERY GRID --- */
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(13, 202, 240, 0.2);
+            border-color: var(--accent-cyan);
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 250px; /* Fixed height for uniform grid */
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+
+        /* Overlay Effect */
+        .gallery-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(0deg, rgba(0,21,41,0.8) 0%, rgba(0,21,41,0) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: end;
+            padding: 20px;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .zoom-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .gallery-item:hover .zoom-icon {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* --- MODAL CUSTOMIZATION --- */
+        .modal-content {
+            background-color: transparent;
+            border: none;
+        }
+        .modal-body img {
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            border: 2px solid var(--accent-cyan);
+        }
+        .btn-close-custom {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1056;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #000b14;
+            padding: 40px 0;
+            margin-top: 80px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-btn"><i class="bi bi-arrow-left me-2"></i> Back to Home</a>
+
+    <header class="page-header text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold fst-italic text-uppercase mb-2">Capture The <span style="color: var(--accent-cyan);">Moment</span></h1>
+            <p class="lead text-white-50">Waru Turi Fun Run 2026 Official Gallery</p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        
+        <div class="d-flex justify-content-center flex-wrap mb-5">
+            <button class="filter-btn active" onclick="filterGallery('all', this)">Show All</button>
+            <button class="filter-btn" onclick="filterGallery('track', this)">On Track</button>
+            <button class="filter-btn" onclick="filterGallery('finish', this)">Finish Line</button>
+            <button class="filter-btn" onclick="filterGallery('podium', this)">Podium</button>
+            <button class="filter-btn" onclick="filterGallery('crowd', this)">Crowd</button>
+        </div>
+
+        <div class="row g-4" id="gallery-container">
+            
+            <div class="col-md-4 col-sm-6 filter-item crowd">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgGmcQkjhmFP7TFK45rrC4uAVYaHZomduheYmJKdirkh0R1dWQPRw60nJY-29KLm6kdanVnvu90ld5pCeLWX6rRP_-ic0cyDbJF3Rk4i1wpPe0oh-p_ql-K4WzPVeg6BIJTMby8PqD3ExKatz2iQ64VRHko9JcWXw82e7zheSztAXwAASfkhJlDsx3WowEU/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(9).webp" class="gallery-img" alt="Crowd Excitement">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> Crowd</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 filter-item track">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgri0Il03f_vaIa7xRDM6epUKn4__STLHzPIlTozoJs-3ZR3bEPBMc9Rv_k4bObcxHf_oscugM0V0S5iebuAUbtuMatBU4Y6qbEbU-seK_jki4foCOOqPvOxtOqoJ-GsVam9ctCbnhyphenhyphen5ABiAr7AMGnrfwpIrww3YrWsVYScO5lMnIiIv_erDQnVDl8SbqJI/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(7).webp" class="gallery-img" alt="Runners on Track">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> On Track</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 filter-item podium">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6dEPO38f8BG3TXuVYKcV2V5BuoIEgFs2J2w5FweNak3z7RnrQIsmsHnh6690tcWjp4DYS8RkLzl_yC-Up8uddL3E0DNGK_NAJs2n3YB5IhfrN6hk2-rb8IH8lbrTiHflKSw__AWqhIDtExiD4vaaPRU2o706v1p6iPhKmg-t8OI1-QeHuFAbzpZRU_3No/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(2).webp" class="gallery-img" alt="Awarding Ceremony">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> Podium</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 filter-item track">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTCJ22-kaUhZ0LCIROigXlaCUz6cEtpPBFYEoH9sSt5rhABJbtERfjCYn-reF4j6GUEHp2ZJRpBqQW8lrh4JjQcpn17HcYZtgLhrQu90HHZvZpYNQekNU367o1m9xMKy1DvYuDaK1kU_veg5cbMJe-B9pwtakABkBfz0wYRS7VoB-3HwsjVLo6s_TzziFG/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(1).webp" class="gallery-img" alt="Runner Focus">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> On Track</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 filter-item finish">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQBjxjgxHO4nTmGwW_C27lLiMCle-ozTl_qa87N0BTf59bwuskpyoVFj5MYlddy1rweZaALTiQwfw0p7k2CI1IychADqu5WTY9J_RNZi_JAMR3FIR29FvS59umDfNFY1WztDnv29wNm-oyGJC0GwFoCvHHGwd3dI80qIjC_EAs_uNjHonKCteAOmsBnUBf/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(3).webp" class="gallery-img" alt="Winner Finish">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> Finish Line</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 filter-item podium">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAEFZtsBJ9rw2tZsX85BI7yCuAelNeuGbR9igbVfnLx6abBjz3Bjcc2mgySj2QV7M97ySLCsGwxsI4QdFmIgOyCzImiMLGIjambeTovsixarg5JokoURMojJhZUGzTe24nQ3P-nSi6ZHXJfw2q6LTvvm0ci_zhfRQL2G1H5O1aE_jumxcsqjvB2hyphenhyphenw_ehn/s960/Waru%20Turi%20Fun%20Run%202026%20(4).webp" class="gallery-img" alt="Men Podium">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> Podium</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+             <div class="col-md-4 col-sm-6 filter-item crowd">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigw1xeTAgN46y-1yDR7ll3faUGHLwTOuyS4r-VnnypwsP-bqMqFFUqs50DPCb5pi_apBwtBx22AWE6tX4yMC9Octynqmrl1EW3HkCFU5bw75dtWCwVbXZaNJsHk2g9w3TJ9eYV__QxSHH_XAllAn8G3NvkYXL9dJCF1ZRhmAI-ybR8jun1KG0WpcjfjhPg/w640-h350-rw/Web%2010k.webp" class="gallery-img" alt="Morning Atmosphere">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> Crowd</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+            
+             <div class="col-md-4 col-sm-6 filter-item track">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDXiB9kUM0pFWopHxWjjCGdZjKJ_3jhLzcgMBR-rf-8U3D77awFZRM0dYed-qwKHXQUcJ0OR6vp0Z7TQtBAH02SMXHUHWrofUfkEeml1PpWCwsXkCYiOuozB3_Nghyphenhyphenv4O_SAezdQLZOq_kwdfWd1uFdW2q2_motxX5Xxt6q_MoQE-YwUwYkGzkokii3F3D/w640-h426-rw/Harga%20Early%20Bird%20Waru%20Turi%20Fun%20Run%202026.webp" class="gallery-img" alt="Running Pack">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> On Track</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+             <div class="col-md-4 col-sm-6 filter-item finish">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgpHXRinEUUOyGS2UwKRvRz3SFp24zqZPRjZwhY02QoT5obrM55A_c7WzZfVP2bRqXuP1sgWcSc9k3QTWfkntRpDr238F73SF6UbPkJFy-7uMIY2SAb0K9zwtTcJqdb680I88H9P5IPJBsQvslluw7HsUVXb8nMNAmitwdcjNQExjlgYZ-NUW316l6pBduT/w640-h428-rw/Harga%20Reguler%20Waru%20Turi%20Fun%20Run%202026%20(1).webp" class="gallery-img" alt="Happy Finisher">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> Finish Line</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 filter-item crowd">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigw1xeTAgN46y-1yDR7ll3faUGHLwTOuyS4r-VnnypwsP-bqMqFFUqs50DPCb5pi_apBwtBx22AWE6tX4yMC9Octynqmrl1EW3HkCFU5bw75dtWCwVbXZaNJsHk2g9w3TJ9eYV__QxSHH_XAllAn8G3NvkYXL9dJCF1ZRhmAI-ybR8jun1KG0WpcjfjhPg/w640-h350-rw/Web%2010k.webp" class="gallery-img" alt="Morning Atmosphere">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> Crowd</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 filter-item finish">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgpHXRinEUUOyGS2UwKRvRz3SFp24zqZPRjZwhY02QoT5obrM55A_c7WzZfVP2bRqXuP1sgWcSc9k3QTWfkntRpDr238F73SF6UbPkJFy-7uMIY2SAb0K9zwtTcJqdb680I88H9P5IPJBsQvslluw7HsUVXb8nMNAmitwdcjNQExjlgYZ-NUW316l6pBduT/w640-h428-rw/Harga%20Reguler%20Waru%20Turi%20Fun%20Run%202026%20(1).webp" class="gallery-img" alt="Happy Finisher">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> Finish Line</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 filter-item podium">
+                <div class="gallery-item" onclick="openModal(this)">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDXiB9kUM0pFWopHxWjjCGdZjKJ_3jhLzcgMBR-rf-8U3D77awFZRM0dYed-qwKHXQUcJ0OR6vp0Z7TQtBAH02SMXHUHWrofUfkEeml1PpWCwsXkCYiOuozB3_Nghyphenhyphenv4O_SAezdQLZOq_kwdfWd1uFdW2q2_motxX5Xxt6q_MoQE-YwUwYkGzkokii3F3D/w640-h426-rw/Harga%20Early%20Bird%20Waru%20Turi%20Fun%20Run%202026.webp" class="gallery-img" alt="Running Pack">
+                    <div class="gallery-overlay">
+                        <small class="fw-bold text-uppercase text-white ls-1"><i class="bi bi-tag-fill me-1 text-info"></i> Podium</small>
+                    </div>
+                    <div class="zoom-icon"><i class="bi bi-zoom-in"></i></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <div class="fw-bold text-white fst-italic mb-2">
+                        <i class="bi bi-trophy-fill text-warning me-2"></i> WARU TURI FUN RUN
+                    </div>
+                    <small class="text-white-50">&copy; 2026 Official Gallery.</small>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white-50 text-decoration-none mx-2"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-white-50 text-decoration-none mx-2"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white-50 text-decoration-none mx-2"><i class="bi bi-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="position-relative">
+                    <span class="btn-close-custom" data-bs-dismiss="modal">&times;</span>
+                    <div class="modal-body p-0">
+                        <img src="" id="modalImage" class="img-fluid w-100" alt="Full View">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Filter Function
+        function filterGallery(category, btn) {
+            // Update Active Button
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filter Items
+            let items = document.querySelectorAll('.filter-item');
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                    // Optional: Add simple animation
+                    item.style.opacity = '0';
+                    setTimeout(() => item.style.opacity = '1', 50);
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Modal Function
+        function openModal(element) {
+            let imgSrc = element.querySelector('img').src;
+            let modalImg = document.getElementById('modalImage');
+            modalImg.src = imgSrc;
+            
+            let myModal = new bootstrap.Modal(document.getElementById('imageModal'));
+            myModal.show();
+        }
+    </script>
+</body>
+</html>

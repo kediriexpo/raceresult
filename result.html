@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Results - Waru Turi Fun Run 2026</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-dark: #001529;
+            --primary-blue: #003366;
+            --bright-blue: #0056b3;
+            --accent-cyan: #0dcaf0;
+            --section-bg-blue: #004080;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            color: #ffffff;
+        }
+
+        .text-cyan-bright {
+            color: var(--accent-cyan) !important;
+            text-shadow: 0 0 5px rgba(13, 202, 240, 0.3);
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--bright-blue) 100%);
+            padding: 90px 0 50px 0;
+            border-bottom: 4px solid var(--accent-cyan);
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .home-btn {
+            position: absolute;
+            top: 30px; left: 30px;
+            color: #ffffff;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex; align-items: center; gap: 8px;
+            z-index: 10;
+        }
+        .home-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            border-color: var(--accent-cyan);
+        }
+
+        .filter-btn {
+            background: rgba(0, 20, 40, 0.6); 
+            border: 2px solid var(--accent-cyan); 
+            color: var(--accent-cyan) !important;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: 800; 
+            transition: all 0.3s;
+            text-transform: uppercase;
+            min-width: 100px;
+            letter-spacing: 1px;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent-cyan);
+            color: var(--primary-dark) !important;
+            box-shadow: 0 0 20px rgba(13, 202, 240, 0.6);
+        }
+
+        .search-input {
+            background: rgba(0, 0, 0, 0.5); 
+            border: 1px solid rgba(255,255,255,0.5);
+            color: #ffffff !important;
+            border-radius: 50px;
+            padding: 12px 25px;
+            width: 100%;
+            font-weight: 600;
+        }
+        .search-input:focus {
+            background: rgba(0, 0, 0, 0.8);
+            border-color: var(--accent-cyan);
+            color: #ffffff !important;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(13, 202, 240, 0.3);
+        }
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.7) !important;
+            font-weight: 400;
+        }
+
+        .result-card {
+            background: rgba(0, 51, 102, 0.8);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+        }
+
+        .table-custom {
+            margin-bottom: 0;
+            width: 100%;
+            border-color: rgba(255,255,255,0.1);
+        }
+
+        .table-custom th {
+            background-color: #001020;
+            color: #ffffff;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 800;
+            padding: 18px 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            white-space: nowrap;
+        }
+
+        .table-custom td {
+            color: #ffffff; 
+            padding: 15px 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1rem;
+        }
+
+        .table-custom tr:hover td {
+            background-color: rgba(13, 202, 240, 0.1);
+        }
+
+        .btn-cert {
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan) !important;
+            padding: 6px 15px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-cert:hover {
+            background: var(--accent-cyan);
+            color: var(--primary-dark) !important;
+            box-shadow: 0 0 10px rgba(13, 202, 240, 0.5);
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-page {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan) !important;
+            padding: 5px 15px;
+            border-radius: 5px;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .btn-page:hover:not(:disabled) {
+            background: var(--accent-cyan);
+            color: var(--primary-dark) !important;
+        }
+        .btn-page:disabled {
+            border-color: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.3) !important;
+            cursor: not-allowed;
+        }
+
+        .badge-cat {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            min-width: 60px;
+            display: inline-block;
+            text-align: center;
+        }
+        .badge-10k { background: rgba(255, 193, 7, 0.2); color: #ffc107 !important; border: 1px solid #ffc107; }
+        .badge-5k { background: rgba(13, 202, 240, 0.2); color: #0dcaf0 !important; border: 1px solid #0dcaf0; }
+
+        @media (max-width: 768px) {
+            .page-header { padding-top: 80px; }
+            .home-btn { top: 20px; left: 15px; padding: 6px 15px; font-size: 0.8rem; }
+            
+            .controls-row { flex-direction: column-reverse; gap: 15px; }
+            .filter-group { display: flex; width: 100%; gap: 10px; }
+            .filter-btn { flex: 1; padding: 10px 0; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="home-btn shadow">
+        <i class="bi bi-house-door-fill"></i> Homepage
+    </a>
+
+    <header class="page-header text-center">
+        <div class="container">
+            <h1 class="display-5 fw-bold fst-italic mb-1">RACE <span style="color: var(--accent-cyan);">RESULTS</span></h1>
+            <p class="lead text-white-50 fs-6">Daftar Lengkap Peserta & E-Certificate</p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        
+        <div class="row mb-4 controls-row align-items-center">
+            <div class="col-md-6">
+                <div class="filter-group">
+                    <button class="filter-btn active" onclick="setCategory('all')">Show All</button>
+                    <button class="filter-btn" onclick="setCategory('10K')">10K</button>
+                    <button class="filter-btn" onclick="setCategory('5K')">5K</button>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="position-relative">
+                    <i class="bi bi-search position-absolute text-white" style="top: 14px; left: 20px;"></i>
+                    <input type="text" id="searchInput" class="search-input ps-5" placeholder="Cari Nama Peserta atau BIB...">
+                </div>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <div class="table-responsive">
+                <table class="table table-custom w-100" id="resultTable">
+                    <thead style="position: sticky; top: 0; z-index: 10;">
+                        <tr>
+                            <th style="width: 50px;">No</th>
+                            <th style="width: 100px;">BIB</th>
+                            <th>Nama Peserta</th>
+                            <th class="text-center" style="width: 100px;">Kategori</th>
+                            <th class="text-end" style="width: 180px;">Sertifikat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+            
+            <div id="noResults" class="text-center p-5 d-none">
+                <i class="bi bi-emoji-frown fs-1 text-white-50 mb-3 d-block"></i>
+                <h5 class="text-white-50">Data tidak ditemukan</h5>
+            </div>
+
+            <div class="pagination-container" id="paginationControls">
+                <button class="btn-page" id="prevBtn" onclick="changePage(-1)">Previous</button>
+                <span class="text-white" id="pageInfo">Page 1 of 1</span>
+                <button class="btn-page" id="nextBtn" onclick="changePage(1)">Next</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <footer>
+        <div class="container text-center py-4 border-top border-secondary border-opacity-25 mt-5">
+            <div class="fw-bold text-white fst-italic mb-1">
+                <i class="bi bi-trophy-fill text-warning me-2"></i> WARU TURI FUN RUN
+            </div>
+            <small class="text-white-50">&copy; 2026 Official Result Page.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // =========================================================================
+        // DATA PESERTA
+        // =========================================================================
+        
+        const participantsData = [
+            { bib: '0047', name: 'Ahmad Fauzi', category: '5K', link: 'https://drive.google.com/file/d/1A9kP0XrQwUeM2sj7t/view' },
+            { bib: '0193', name: 'Muhammad Rizki', category: '10K', link: 'https://drive.google.com/file/d/1BfK8R2mQePZJ4X0W/view' },
+            { bib: '0258', name: 'Andi Pratama', category: '5K', link: 'https://drive.google.com/file/d/1C7mLQkT2VwH9J0R/view' },
+            { bib: '0314', name: 'Budi Santoso', category: '5K', link: 'https://drive.google.com/file/d/1D0XJQ9A4kM2LwP/view' },
+            { bib: '0429', name: 'Dimas Saputra', category: '10K', link: 'https://drive.google.com/file/d/1EJ8mQZP0L2K4Xw/view' },
+            { bib: '0581', name: 'Rian Kurniawan', category: '5K', link: 'https://drive.google.com/file/d/1F2kM9QwA0XJP4L/view' },
+            { bib: '0637', name: 'Fajar Nugroho', category: '10K', link: 'https://drive.google.com/file/d/1GJQ4kX9Z0MPLw2/view' },
+            { bib: '0712', name: 'Yoga Prasetya', category: '10K', link: 'https://drive.google.com/file/d/1HkX2Q9LJ0P4Mw/view' },
+            { bib: '0845', name: 'Arif Rahman', category: '5K', link: 'https://drive.google.com/file/d/1IJ9QkX0wM2LP4/view' },
+            { bib: '0976', name: 'Wahyu Hidayat', category: '10K', link: 'https://drive.google.com/file/d/1J4L0P9QkXwM2/view' },
+            { bib: '1034', name: 'Eko Setiawan', category: '5K', link: 'https://drive.google.com/file/d/1KQ9M0wX2P4Lk/view' },
+            { bib: '1169', name: 'Aldi Firmansyah', category: '5K', link: 'https://drive.google.com/file/d/1LwX0M4P2Qk9J/view' },
+            { bib: '1285', name: 'Rizal Maulana', category: '10K', link: 'https://drive.google.com/file/d/1M9QkX4P0Lw2J/view' },
+            { bib: '1342', name: 'Ilham Ramadhan', category: '5K', link: 'https://drive.google.com/file/d/1NX2kP0Q9M4Lw/view' },
+            { bib: '1490', name: 'Bagus Wijaya', category: '10K', link: 'https://drive.google.com/file/d/1OQ9wX4k0M2PL/view' },
+            { bib: '1528', name: 'Agung Purnomo', category: '10K', link: 'https://drive.google.com/file/d/1P4kXQ9LwM20/view' },
+            { bib: '1674', name: 'Bayu Aditya', category: '5K', link: 'https://drive.google.com/file/d/1QJ0wP2kX4M9L/view' },
+            { bib: '1793', name: 'Doni Saputro', category: '5K', link: 'https://drive.google.com/file/d/1Rk9Qw0M2X4LP/view' },
+            { bib: '1826', name: 'Irfan Hakim', category: '10K', link: 'https://drive.google.com/file/d/1S2P4LwX0M9Qk/view' },
+            { bib: '1950', name: 'Zaki Anshori', category: '5K', link: 'https://drive.google.com/file/d/1TQX9M4L0w2Pk/view' },
+            { bib: '2074', name: 'Hafiz Nugraha', category: '10K', link: 'https://drive.google.com/file/d/1U9Q0M2kXPL4w/view' },
+            { bib: '2149', name: 'Salman Alfarizi', category: '5K', link: 'https://drive.google.com/file/d/1V4wP2k9M0QXL/view' },
+            { bib: '2281', name: 'Naufal Akbar', category: '5K', link: 'https://drive.google.com/file/d/1WQX9L0k4M2P/view' },
+            { bib: '2396', name: 'Daffa Pramudya', category: '10K', link: 'https://drive.google.com/file/d/1X0M9Qk4w2PL/view' },
+            { bib: '2417', name: 'Reza Andriansyah', category: '10K', link: 'https://drive.google.com/file/d/1Y2LQ0M4kX9P/view' },
+            { bib: '2568', name: 'Ardiansyah Putra', category: '5K', link: 'https://drive.google.com/file/d/1Zk9M2Q0LwXP4/view' },
+            { bib: '2639', name: 'Gilang Ramadhan', category: '10K', link: 'https://drive.google.com/file/d/1a4Q9X2L0Mwk/view' },
+            { bib: '2784', name: 'Tegar Maulana', category: '5K', link: 'https://drive.google.com/file/d/1bM2k4QXP9wL/view' },
+            { bib: '2891', name: 'Rendi Prakoso', category: '5K', link: 'https://drive.google.com/file/d/1cQ4X9M0wPL2/view' },
+            { bib: '2947', name: 'Yogi Prabowo', category: '10K', link: 'https://drive.google.com/file/d/1d9L0kP4MX2Q/view' },
+            { bib: '3018', name: 'Satria Wibowo', category: '5K', link: 'https://drive.google.com/file/d/1eXQ4P9k2M0L/view' },
+            { bib: '3176', name: 'Fikri Hidayat', category: '10K', link: 'https://drive.google.com/file/d/1f0Q4M9LwXPk/view' },
+            { bib: '3284', name: 'Arya Mahendra', category: '10K', link: 'https://drive.google.com/file/d/1g9P0kQMX2L4/view' },
+            { bib: '3391', name: 'Farhan Nugraha', category: '5K', link: 'https://drive.google.com/file/d/1hM2Qk9P4X0L/view' },
+            { bib: '3427', name: 'Lukman Hakim', category: '5K', link: 'https://drive.google.com/file/d/1i4M9XQ2kPL0/view' },
+            { bib: '3569', name: 'Raka Firmansyah', category: '10K', link: 'https://drive.google.com/file/d/1jQ9P0M4Xk2L/view' },
+            { bib: '3615', name: 'Febri Kurnia', category: '5K', link: 'https://drive.google.com/file/d/1kLQ9X4P2M0/view' },
+            { bib: '3742', name: 'Arman Setiadi', category: '10K', link: 'https://drive.google.com/file/d/1l0Q9XkM2PL4/view' },
+            { bib: '3896', name: 'Hendra Wijaya', category: '5K', link: 'https://drive.google.com/file/d/1m4P2M9XkQL0/view' },
+            { bib: '3951', name: 'Fadli Akbar', category: '10K', link: 'https://drive.google.com/file/d/1nXQ9k4M2P0L/view' },
+            { bib: '4028', name: 'Iqbal Ramadhan', category: '10K', link: 'https://drive.google.com/file/d/1oM9P2QX4k0L/view' },
+            { bib: '4183', name: 'Alvin Syahputra', category: '5K', link: 'https://drive.google.com/file/d/1p2k9Q4M0PLX/view' },
+            { bib: '4296', name: 'Kevin Saputra', category: '5K', link: 'https://drive.google.com/file/d/1q9Q0X4kM2LP/view' },
+            { bib: '4317', name: 'Jonathan Pratama', category: '10K', link: 'https://drive.google.com/file/d/1rM2P0Q9X4kL/view' },
+            { bib: '4459', name: 'Christian Adi', category: '5K', link: 'https://drive.google.com/file/d/1s9X4kM2PL0Q/view' },
+            { bib: '4572', name: 'Samuel Wijaya', category: '10K', link: 'https://drive.google.com/file/d/1tQ9P2kX4M0L/view' },
+            { bib: '4681', name: 'Daniel Hartono', category: '10K', link: 'https://drive.google.com/file/d/1u4Qk9M2XPL0/view' },
+            { bib: '4793', name: 'Steven Gunawan', category: '5K', link: 'https://drive.google.com/file/d/1v9Q2X4k0MPL/view' },
+            { bib: '4865', name: 'Albert Setiawan', category: '5K', link: 'https://drive.google.com/file/d/1wM9P4kQ2XL0/view' },
+            { bib: '4990', name: 'Andreas Nugroho', category: '10K', link: 'https://drive.google.com/file/d/1xQ4kM2X0PL9/view' },
+            { bib: '5037', name: 'Yohanes Prakoso', category: '5K', link: 'https://drive.google.com/file/d/1y9M4Qk2XPL0/view' },
+            { bib: '5184', name: 'Michael Jonathan', category: '10K', link: 'https://drive.google.com/file/d/1zXQ9P4k2M0L/view' },
+            { bib: '5269', name: 'Patrick Wijaya', category: '5K', link: 'https://drive.google.com/file/d/20A9XkM4PLQw2/view' },
+            { bib: '5391', name: 'Kevin Leonardo', category: '10K', link: 'https://drive.google.com/file/d/21B4P0KQMXL92/view' },
+            { bib: '5478', name: 'Bryan Aditya', category: '5K', link: 'https://drive.google.com/file/d/22C9QXkM0PLw4/view' },
+            { bib: '5526', name: 'Nicholas Putra', category: '10K', link: 'https://drive.google.com/file/d/23Dk4Q9X0MPL/view' },
+            { bib: '5684', name: 'Vincent Santoso', category: '10K', link: 'https://drive.google.com/file/d/24E0P9kQX4ML/view' },
+            { bib: '5792', name: 'Ronald Hidayat', category: '5K', link: 'https://drive.google.com/file/d/25FQX9k4MPL0/view' },
+            { bib: '5847', name: 'Edward Kurniawan', category: '5K', link: 'https://drive.google.com/file/d/26G4M0QXP9kL/view' },
+            { bib: '5963', name: 'Felix Pratama', category: '10K', link: 'https://drive.google.com/file/d/27H9P4kXQML0/view' },
+            { bib: '6029', name: 'Siti Aisyah', category: '5K', link: 'https://drive.google.com/file/d/28IQ0X9kM4PL/view' },
+            { bib: '6175', name: 'Nur Aini', category: '10K', link: 'https://drive.google.com/file/d/29J4P9M0XkQL/view' },
+            { bib: '6284', name: 'Dewi Lestari', category: '10K', link: 'https://drive.google.com/file/d/30KX9P4kM0QL/view' },
+            { bib: '6390', name: 'Rina Susanti', category: '5K', link: 'https://drive.google.com/file/d/31L4Q9Xk0MPL/view' },
+            { bib: '6437', name: 'Fitri Handayani', category: '5K', link: 'https://drive.google.com/file/d/32M0P4kQX9L/view' },
+            { bib: '6592', name: 'Nabila Putri', category: '10K', link: 'https://drive.google.com/file/d/33NXQ9kM4PL0/view' },
+            { bib: '6678', name: 'Zahra Ramadhani', category: '5K', link: 'https://drive.google.com/file/d/34O9P4xKMQL0/view' },
+            { bib: '6714', name: 'Aulia Rahma', category: '10K', link: 'https://drive.google.com/file/d/35PQX4k9M0L/view' },
+            { bib: '6849', name: 'Putri Maharani', category: '5K', link: 'https://drive.google.com/file/d/36Q0M9P4kXQL/view' },
+            { bib: '6971', name: 'Intan Permata', category: '10K', link: 'https://drive.google.com/file/d/37R4X9kM0PLQ/view' },
+            { bib: '7038', name: 'Dinda Kartika', category: '10K', link: 'https://drive.google.com/file/d/38S9KP4X0MQL/view' },
+            { bib: '7184', name: 'Ayu Wulandari', category: '5K', link: 'https://drive.google.com/file/d/39T0XQ9k4MPL/view' },
+            { bib: '7296', name: 'Anita Sari', category: '5K', link: 'https://drive.google.com/file/d/40U4P9kM0XQL/view' },
+            { bib: '7341', name: 'Desi Anggraini', category: '10K', link: 'https://drive.google.com/file/d/41V9X4kP0MQL/view' },
+            { bib: '7485', name: 'Yuni Safitri', category: '5K', link: 'https://drive.google.com/file/d/42Wk9M0QX4PL/view' },
+            { bib: '7592', name: 'Eka Puspitasari', category: '10K', link: 'https://drive.google.com/file/d/43X4P9Qk0MXL/view' },
+            { bib: '7617', name: 'Lilis Setyaningsih', category: '10K', link: 'https://drive.google.com/file/d/44YQX9M4kPL0/view' },
+            { bib: '7749', name: 'Nia Kurniawati', category: '5K', link: 'https://drive.google.com/file/d/45Z4kM9PXQL0/view' },
+            { bib: '7863', name: 'Rika Aprillia', category: '5K', link: 'https://drive.google.com/file/d/46a9XkM4PQL0/view' },
+            { bib: '7914', name: 'Melati Putri', category: '10K', link: 'https://drive.google.com/file/d/47b4P0Q9XkML/view' },
+            { bib: '8047', name: 'Fitria Ningsih', category: '5K', link: 'https://drive.google.com/file/d/48c9QXkM4PL0/view' },
+            { bib: '8192', name: 'Nurul Hidayah', category: '10K', link: 'https://drive.google.com/file/d/49dX4P9kM0QL/view' },
+            { bib: '8256', name: 'Salma Azzahra', category: '5K', link: 'https://drive.google.com/file/d/50e9P0Xk4MQL/view' },
+            { bib: '8391', name: 'Khansa Ramadani', category: '10K', link: 'https://drive.google.com/file/d/51f4kQ9X0MPL/view' },
+            { bib: '8427', name: 'Aisyah Humaira', category: '5K', link: 'https://drive.google.com/file/d/52g9X4kP0MQL/view' },
+            { bib: '8574', name: 'Shafa Nabila', category: '10K', link: 'https://drive.google.com/file/d/53hM0Q9P4kXL/view' },
+            { bib: '8690', name: 'Rania Fadhilah', category: '10K', link: 'https://drive.google.com/file/d/54i4Xk9M0PQL/view' },
+            { bib: '8743', name: 'Salsabila Putri', category: '5K', link: 'https://drive.google.com/file/d/55jQ9P4kM0XL/view' },
+            { bib: '8896', name: 'Alya Prameswari', category: '5K', link: 'https://drive.google.com/file/d/56kX4M9P0QL/view' },
+            { bib: '8935', name: 'Nayla Syakira', category: '10K', link: 'https://drive.google.com/file/d/57l9P0QX4kML/view' },
+            { bib: '9051', name: 'Hana Zahira', category: '5K', link: 'https://drive.google.com/file/d/58m4QXk9M0PL/view' },
+            { bib: '9187', name: 'Keisha Aurel', category: '10K', link: 'https://drive.google.com/file/d/59nX9M4P0kQL/view' },
+            { bib: '9236', name: 'Kirana Maharani', category: '10K', link: 'https://drive.google.com/file/d/60o9QX4kM0PL/view' },
+            { bib: '9374', name: 'Tiara Anindya', category: '5K', link: 'https://drive.google.com/file/d/61p4M9P0XkQL/view' },
+            { bib: '9482', name: 'Citra Lestari', category: '5K', link: 'https://drive.google.com/file/d/62qXQ9M4kPL0/view' },
+            { bib: '9517', name: 'Indah Pertiwi', category: '10K', link: 'https://drive.google.com/file/d/63r4kX9P0MQL/view' },
+            { bib: '9684', name: 'Lutfia Rahmah', category: '5K', link: 'https://drive.google.com/file/d/64s9M0QX4kPL/view' },
+            { bib: '9730', name: 'Nisa Amalia', category: '10K', link: 'https://drive.google.com/file/d/65tX4P9k0MQL/view' },
+            { bib: '9856', name: 'Farah Nadhira', category: '5K', link: 'https://drive.google.com/file/d/66u9QXkM4PL0/view' },
+            { bib: '9912', name: 'Mutiara Azkiya', category: '10K', link: 'https://drive.google.com/file/d/67v4P9kX0MQL/view' },
+            { bib: '0048', name: 'Rafi Ahmad', category: '10K', link: 'https://drive.google.com/file/d/68wX9M4P0kQL/view' },
+            { bib: '0176', name: 'Ilmi Fadhillah', category: '5K', link: 'https://drive.google.com/file/d/69x4Q9Xk0MPL/view' },
+            { bib: '0294', name: 'Kurnia Adi', category: '5K', link: 'https://drive.google.com/file/d/70y9M0P4XkQL/view' },
+            { bib: '0385', name: 'Prasetyo Nugroho', category: '10K', link: 'https://drive.google.com/file/d/71zX4P9kM0QL/view' },
+            { bib: '0417', name: 'Yudha Prabawa', category: '5K', link: 'https://drive.google.com/file/d/26G4M0QXP9kL/view' },
+            { bib: '0593', name: 'Aditya Saputra', category: '10K', link: 'https://drive.google.com/file/d/27H9P4kXQML0/view' },
+            { bib: '0671', name: 'Rangga Firmansyah', category: '10K', link: 'https://drive.google.com/file/d/28IQ0X9kM4PL/view' },
+            { bib: '0758', name: 'Bintang Mahesa', category: '5K', link: 'https://drive.google.com/file/d/29J4P9M0XkQL/view' },
+            { bib: '0864', name: 'Fero Andika', category: '5K', link: 'https://drive.google.com/file/d/30KX9P4kM0QL/view' },
+            { bib: '0981', name: 'Oki Setiawan', category: '10K', link: 'https://drive.google.com/file/d/31L4Q9Xk0MPL/view' },
+            { bib: '1027', name: 'Panji Baskara', category: '5K', link: 'https://drive.google.com/file/d/32M0P4kQX9L/view' },
+            { bib: '1194', name: 'Rama Wijaya', category: '10K', link: 'https://drive.google.com/file/d/33NXQ9kM4PL0/view' },
+            { bib: '1268', name: 'Seno Prakoso', category: '5K', link: 'https://drive.google.com/file/d/34O9P4xKMQL0/view' },
+            { bib: '1375', name: 'Wisnu Saputro', category: '10K', link: 'https://drive.google.com/file/d/35PQX4k9M0L/view' },
+            { bib: '1482', name: 'Radit Pramudya', category: '10K', link: 'https://drive.google.com/file/d/36Q0M9P4kXQL/view' },
+            { bib: '1549', name: 'Fattah Ramadhan', category: '5K', link: 'https://drive.google.com/file/d/37R4X9kM0PLQ/view' },
+            { bib: '1683', name: 'Azhar Hakim', category: '5K', link: 'https://drive.google.com/file/d/38S9KP4X0MQL/view' },
+            { bib: '1762', name: 'Hanif Maulana', category: '10K', link: 'https://drive.google.com/file/d/39T0XQ9k4MPL/view' },
+            { bib: '1897', name: 'Syahrul Gunawan', category: '5K', link: 'https://drive.google.com/file/d/40U4P9kM0XQL/view' },
+            { bib: '1974', name: 'Fikri Ananta', category: '10K', link: 'https://drive.google.com/file/d/41V9X4kP0MQL/view' },
+            { bib: '2059', name: 'Galang Wicaksono', category: '10K', link: 'https://drive.google.com/file/d/42Wk9M0QX4PL/view' },
+            { bib: '2138', name: 'Andra Kurnia', category: '5K', link: 'https://drive.google.com/file/d/43X4P9Qk0MXL/view' },
+            { bib: '2274', name: 'Pasha Ramli', category: '5K', link: 'https://drive.google.com/file/d/44YQX9M4kPL0/view' },
+            { bib: '2381', name: 'Faris Alamsyah', category: '10K', link: 'https://drive.google.com/file/d/45Z4kM9PXQL0/view' },
+            { bib: '2459', name: 'Jihan Maulidya', category: '5K', link: 'https://drive.google.com/file/d/46a9XkM4PQL0/view' },
+            { bib: '2596', name: 'Raisa Putri', category: '10K', link: 'https://drive.google.com/file/d/47b4P0Q9XkML/view' },
+            { bib: '2673', name: 'Nadya Oktaviani', category: '5K', link: 'https://drive.google.com/file/d/48c9QXkM4PL0/view' },
+            { bib: '2718', name: 'Syifa Nurhaliza', category: '10K', link: 'https://drive.google.com/file/d/49dX4P9kM0QL/view' },
+            { bib: '2854', name: 'Amelinda Sari', category: '5K', link: 'https://drive.google.com/file/d/50e9P0Xk4MQL/view' },
+            { bib: '2961', name: 'Cahyani Putri', category: '10K', link: 'https://drive.google.com/file/d/51f4kQ9X0MPL/view' },
+            { bib: '3049', name: 'Bella Aprilia', category: '10K', link: 'https://drive.google.com/file/d/55jQ9P4kM0XL/view' },
+            { bib: '3157', name: 'Vina Maharani', category: '5K', link: 'https://drive.google.com/file/d/56kX4M9P0QL/view' },
+            { bib: '3271', name: 'Siska Permata', category: '5K', link: 'https://drive.google.com/file/d/57l9P0QX4kML/view' },
+            { bib: '3386', name: 'Hani Latifah', category: '10K', link: 'https://drive.google.com/file/d/58m4QXk9M0PL/view' },
+            { bib: '3492', name: 'Meilani Sari', category: '5K', link: 'https://drive.google.com/file/d/59nX9M4P0kQL/view' },
+            { bib: '3578', name: 'Karina Azzahra', category: '10K', link: 'https://drive.google.com/file/d/60o9QX4kM0PL/view' },
+            { bib: '3641', name: 'Larasati Putri', category: '10K', link: 'https://drive.google.com/file/d/61p4M9P0XkQL/view' },
+            { bib: '3795', name: 'Ziva Khairunnisa', category: '5K', link: 'https://drive.google.com/file/d/62qXQ9M4kPL0/view' },
+            { bib: '3872', name: 'Najwa Shihabani', category: '5K', link: 'https://drive.google.com/file/d/63r4kX9P0MQL/view' },
+            { bib: '3984', name: 'Anisa Rahmadani', category: '10K', link: 'https://drive.google.com/file/d/64s9M0QX4kPL/view' },
+            { bib: '4069', name: 'Rizky Ananda', category: '5K', link: 'https://drive.google.com/file/d/65tX4P9k0MQL/view' },
+            { bib: '4175', name: 'Mahardika Putra', category: '10K', link: 'https://drive.google.com/file/d/66u9QXkM4PL0/view' },
+            { bib: '4261', name: 'Prawira Yudha', category: '5K', link: 'https://drive.google.com/file/d/67v4P9kX0MQL/view' },
+            { bib: '4387', name: 'Baskara Aji', category: '10K', link: 'https://drive.google.com/file/d/68wX9M4P0kQL/view' },
+            { bib: '4493', name: 'Aryo Pamungkas', category: '10K', link: 'https://drive.google.com/file/d/69x4Q9Xk0MPL/view' },
+            { bib: '4538', name: 'Danang Saptono', category: '5K', link: 'https://drive.google.com/file/d/70y9M0P4XkQL/view' },
+            { bib: '4672', name: 'Teguh Santoso', category: '5K', link: 'https://drive.google.com/file/d/71zX4P9kM0QL/view' },
+            { bib: '4781', name: 'Yanuar Haryanto', category: '10K', link: 'https://drive.google.com/file/d/26G4M0QXP9kL/view' },
+            { bib: '4895', name: 'Surya Pratama', category: '5K', link: 'https://drive.google.com/file/d/27H9P4kXQML0/view' },
+            { bib: '4976', name: 'Heru Setiawan', category: '10K', link: 'https://drive.google.com/file/d/59nX9M4P0kQL/view' },
+            { bib: '5091', name: 'Miko Prabowo', category: '10K', link: 'https://drive.google.com/file/d/60o9QX4kM0PL/view' },
+            { bib: '5168', name: 'Vito Andrian', category: '5K', link: 'https://drive.google.com/file/d/61p4M9P0XkQL/view' },
+            { bib: '5284', name: 'Jaka Susilo', category: '5K', link: 'https://drive.google.com/file/d/62qXQ9M4kPL0/view' },
+            { bib: '5376', name: 'Koko Hidayat', category: '10K', link: 'https://drive.google.com/file/d/63r4kX9P0MQL/view' },
+            { bib: '5492', name: 'Arjuna Mahesa', category: '5K', link: 'https://drive.google.com/file/d/64s9M0QX4kPL/view' },
+            { bib: '5561', name: 'Bima Sakti', category: '10K', link: 'https://drive.google.com/file/d/65tX4P9k0MQL/view' },
+        ]; 
+
+        // =========================================================================
+        // LOGIC
+        // =========================================================================
+
+        let filteredParticipants = [...participantsData];
+        let currentPage = 1;
+        const rowsPerPage = 50; 
+
+        const tableBody = document.getElementById('tableBody');
+        const noResults = document.getElementById('noResults');
+        const pageInfo = document.getElementById('pageInfo');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const searchInput = document.getElementById('searchInput');
+        let currentCategory = 'all';
+
+        function renderTable() {
+            tableBody.innerHTML = "";
+            
+            const totalPages = Math.ceil(filteredParticipants.length / rowsPerPage);
+            
+            if (currentPage < 1) currentPage = 1;
+            if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+            const startIndex = (currentPage - 1) * rowsPerPage;
+            const endIndex = startIndex + rowsPerPage;
+            const dataToShow = filteredParticipants.slice(startIndex, endIndex);
+
+            if (dataToShow.length === 0) {
+                noResults.classList.remove('d-none');
+                document.getElementById('paginationControls').style.display = 'none';
+            } else {
+                noResults.classList.add('d-none');
+                document.getElementById('paginationControls').style.display = 'flex';
+
+                dataToShow.forEach((p, index) => {
+                    const catBadge = p.category === '10K' 
+                        ? '<span class="badge-cat badge-10k">10K</span>' 
+                        : '<span class="badge-cat badge-5k">5K</span>';
+
+                    // PENERAPAN KELAS WARNA CYAN PADA 3 KOLOM PERTAMA
+                    const row = `
+                        <tr>
+                            <td class="text-cyan-bright fw-bold">${startIndex + index + 1}</td>
+                            <td class="text-cyan-bright fw-bold font-monospace">${p.bib}</td>
+                            <td class="text-cyan-bright fw-bold text-uppercase">${p.name}</td>
+                            <td class="text-center">${catBadge}</td>
+                            <td class="text-end">
+                                <a href="${p.link}" target="_blank" class="btn-cert">
+                                    <i class="bi bi-download"></i> <span class="d-none d-md-inline">Download</span>
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            }
+
+            pageInfo.innerText = totalPages === 0 ? "Page 0 of 0" : `Page ${currentPage} of ${totalPages}`;
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        function changePage(direction) {
+            currentPage += direction;
+            renderTable();
+        }
+
+        function setCategory(category) {
+            currentCategory = category;
+            currentPage = 1;
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.includes(category) || (category === 'all' && btn.textContent === 'Show All')) {
+                    btn.classList.add('active');
+                }
+            });
+
+            applyFilters();
+        }
+
+        function applyFilters() {
+            const query = searchInput.value.toLowerCase();
+            
+            filteredParticipants = participantsData.filter(p => {
+                const matchCat = currentCategory === 'all' || p.category === currentCategory;
+                const matchSearch = p.name.toLowerCase().includes(query) || 
+                                    p.bib.toString().includes(query);
+
+                return matchCat && matchSearch;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        searchInput.addEventListener('keyup', applyFilters);
+        
+        // --- FITUR AUTO SEARCH DARI URL ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil parameter dari URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryParam = urlParams.get('query');
+
+            // Jika ada query, isi ke input box dan jalankan pencarian
+            if (queryParam) {
+                searchInput.value = queryParam;
+                applyFilters(); // Jalankan filter dengan nilai dari URL
+            } else {
+                applyFilters(); // Jalankan filter default (tampilkan semua)
+            }
+        });
+
+    </script>
+</body>
+</html>

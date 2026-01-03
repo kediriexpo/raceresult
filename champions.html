@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champions - Waru Turi Fun Run 2026</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-dark: #001529;
+            --primary-blue: #003366;
+            --bright-blue: #0056b3;
+            --accent-cyan: #0dcaf0;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- HEADER --- */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--bright-blue) 100%);
+            padding: 90px 0 50px 0;
+            border-bottom: 4px solid var(--accent-cyan);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.3;
+        }
+
+        .home-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: white;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .home-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            border-color: var(--accent-cyan);
+        }
+
+        /* --- TABS --- */
+        .nav-pills .nav-link {
+            color: rgba(255,255,255,0.85); 
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin: 0 5px;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .nav-pills .nav-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--accent-cyan);
+            color: #001529 !important;
+            box-shadow: 0 0 20px rgba(13, 202, 240, 0.6);
+            border-color: var(--accent-cyan);
+        }
+
+        /* --- CHAMPION CARD --- */
+        .champion-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            /* overflow: hidden;  <- DIHAPUS AGAR BADGE TIDAK TERPOTONG */
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            position: relative; /* Penting untuk positioning badge */
+        }
+
+        .champion-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(13, 202, 240, 0.2);
+            border-color: var(--accent-cyan);
+        }
+
+        .img-wrapper {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden; /* Gambar tetap dicrop */
+            border-bottom: 5px solid var(--gold);
+            border-top-left-radius: 20px; /* Round corner manual */
+            border-top-right-radius: 20px; /* Round corner manual */
+        }
+
+        .champion-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            transition: transform 0.5s;
+        }
+
+        .champion-card:hover .champion-img {
+            transform: scale(1.05);
+        }
+
+        /* REVISI: RANK 1 BADGE POSITIONING */
+        .rank-1-badge {
+            position: absolute;
+            /* Posisikan relatif terhadap champion-card */
+            top: 350px; /* Sesuai tinggi img-wrapper */
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center tepat di garis batas */
+            
+            background: var(--gold);
+            color: #000000;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            border: 5px solid var(--primary-dark);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+            z-index: 10; /* Pastikan di atas segalanya */
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .category-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--accent-cyan);
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border: 1px solid var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            z-index: 5;
+        }
+
+        .champion-info {
+            padding: 45px 20px 20px 20px;
+            text-align: center;
+             /* Round corner bawah manual */
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .champion-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .champion-time {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 15px;
+            display: block;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .champion-meta {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        /* Podium List */
+        .podium-list {
+            background: rgba(0,0,0,0.3);
+            margin: 0 -20px -20px -20px;
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+             /* Round corner bawah list */
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .podium-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .podium-item:last-child { border-bottom: none; }
+
+        .rank-small {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            color: #000;
+            margin-right: 10px;
+        }
+
+        /* --- PODIUM HIGHLIGHTS SECTION --- */
+        .podium-highlights {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .podium-frame {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+            aspect-ratio: 4/3; /* Menjaga rasio gambar */
+        }
+        .podium-frame:hover {
+            border-color: var(--accent-cyan);
+            transform: scale(1.02);
+        }
+        .podium-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .podium-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.7);
+            padding: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            font-weight: bold;
+            color: var(--accent-cyan);
+        }
+
+        /* --- RESPONSIVE REVISI (TOMBOL PROPORSIONAL) --- */
+        @media (max-width: 768px) {
+            .page-header { padding-top: 80px; }
+            .home-btn { top: 20px; left: 15px; padding: 6px 15px; font-size: 0.8rem; }
+            
+            /* Tabs Full Width & Proportional di Mobile */
+            .nav-pills { 
+                width: 100%; 
+                display: flex;
+                gap: 10px; /* Jarak antar tombol */
+            }
+            .nav-item { 
+                flex: 1; /* Membagi rata ruang yang ada */
+                text-align: center; 
+            }
+            .nav-link { 
+                width: 100%; 
+                margin: 0; /* Reset margin agar proporsional */
+                padding: 12px 0; /* Padding vertikal lebih besar */
+                font-size: 0.9rem; 
+            }
+
+            .img-wrapper { height: 280px; }
+            /* Sesuaikan posisi badge di mobile jika tinggi gambar berubah */
+            .rank-1-badge { top: 280px; } 
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="home-btn shadow">
+        <i class="bi bi-house-door-fill"></i> Homepage
+    </a>
+
+    <header class="page-header text-center">
+        <div class="container position-relative z-2">
+            <h1 class="display-4 fw-bold fst-italic mb-2">CATEGORY <span style="color: var(--accent-cyan);">CHAMPIONS</span></h1>
+            <p class="lead text-white-50">Hall of Fame - Waru Turi Fun Run 2026</p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-6 col-md-8"> <ul class="nav nav-pills justify-content-center" id="championTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active shadow" id="tab-10k" data-bs-toggle="pill" data-bs-target="#content-10k" type="button">10K CHAMPIONS</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link shadow" id="tab-5k" data-bs-toggle="pill" data-bs-target="#content-5k" type="button">5K CHAMPIONS</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="tab-content" id="championTabContent">
+            
+            <div class="tab-pane fade show active" id="content-10k" role="tabpanel">
+                
+                <div class="row g-4 justify-content-center">
+                    
+                    <div class="col-lg-5 col-md-6">
+                        <div class="champion-card shadow-lg">
+                            <div class="img-wrapper">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhAEFZtsBJ9rw2tZsX85BI7yCuAelNeuGbR9igbVfnLx6abBjz3Bjcc2mgySj2QV7M97ySLCsGwxsI4QdFmIgOyCzImiMLGIjambeTovsixarg5JokoURMojJhZUGzTe24nQ3P-nSi6ZHXJfw2q6LTvvm0ci_zhfRQL2G1H5O1aE_jumxcsqjvB2hyphenhyphenw_ehn/s960/Waru%20Turi%20Fun%20Run%202026%20(4).webp" class="champion-img" alt="Men 10K Winner">
+                                <span class="category-badge">Men's 10K</span>
+                            </div>
+                            <div class="rank-1-badge">1</div>
+
+                            <div class="champion-info">
+                                <h2 class="champion-name">Yoga Pratama</h2>
+                                <span class="champion-time">00:35:10</span>
+                                <div class="champion-meta">
+                                    <i class="bi bi-geo-alt-fill text-info me-1"></i> Indorunners Surabaya
+                                </div>
+                                
+                                <div class="podium-list text-start">
+                                    <div class="podium-item">
+                                        <div><span class="rank-small" style="background: var(--silver);">2</span> <span class="fw-bold">Budi Santoso</span></div>
+                                        <span class="font-monospace text-info">00:36:45</span>
+                                    </div>
+                                    <div class="podium-item">
+                                        <div><span class="rank-small" style="background: var(--bronze);">3</span> <span class="fw-bold">Dedi Mulyadi</span></div>
+                                        <span class="font-monospace text-info">00:37:20</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-md-6">
+                        <div class="champion-card shadow-lg">
+                            <div class="img-wrapper">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6dEPO38f8BG3TXuVYKcV2V5BuoIEgFs2J2w5FweNak3z7RnrQIsmsHnh6690tcWjp4DYS8RkLzl_yC-Up8uddL3E0DNGK_NAJs2n3YB5IhfrN6hk2-rb8IH8lbrTiHflKSw__AWqhIDtExiD4vaaPRU2o706v1p6iPhKmg-t8OI1-QeHuFAbzpZRU_3No/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(2).webp" class="champion-img" alt="Women 10K Winner">
+                                <span class="category-badge" style="border-color: #ff69b4; color: #ff69b4;">Women's 10K</span>
+                            </div>
+                            <div class="rank-1-badge">1</div>
+
+                            <div class="champion-info">
+                                <h2 class="champion-name">Rina Wijaya</h2>
+                                <span class="champion-time">00:40:05</span>
+                                <div class="champion-meta">
+                                    <i class="bi bi-geo-alt-fill text-info me-1"></i> Malang Playon
+                                </div>
+
+                                <div class="podium-list text-start">
+                                    <div class="podium-item">
+                                        <div><span class="rank-small" style="background: var(--silver);">2</span> <span class="fw-bold">Sari Indah</span></div>
+                                        <span class="font-monospace text-info">00:41:40</span>
+                                    </div>
+                                    <div class="podium-item">
+                                        <div><span class="rank-small" style="background: var(--bronze);">3</span> <span class="fw-bold">Dewi Sartika</span></div>
+                                        <span class="font-monospace text-info">00:42:30</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="podium-highlights text-center">
+                    <h3 class="fst-italic fw-bold text-white-50 mb-4 text-uppercase">10K Podium Moments</h3>
+                    <div class="row justify-content-center g-3">
+                        <div class="col-md-4 col-6">
+                            <div class="podium-frame shadow">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgri0Il03f_vaIa7xRDM6epUKn4__STLHzPIlTozoJs-3ZR3bEPBMc9Rv_k4bObcxHf_oscugM0V0S5iebuAUbtuMatBU4Y6qbEbU-seK_jki4foCOOqPvOxtOqoJ-GsVam9ctCbnhyphenhyphen5ABiAr7AMGnrfwpIrww3YrWsVYScO5lMnIiIv_erDQnVDl8SbqJI/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(7).webp" alt="Podium 1">
+                                <div class="podium-caption">MEN'S PODIUM</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-6">
+                            <div class="podium-frame shadow">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgGmcQkjhmFP7TFK45rrC4uAVYaHZomduheYmJKdirkh0R1dWQPRw60nJY-29KLm6kdanVnvu90ld5pCeLWX6rRP_-ic0cyDbJF3Rk4i1wpPe0oh-p_ql-K4WzPVeg6BIJTMby8PqD3ExKatz2iQ64VRHko9JcWXw82e7zheSztAXwAASfkhJlDsx3WowEU/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(9).webp" alt="Podium 2">
+                                <div class="podium-caption">WOMEN'S PODIUM</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-6">
+                            <div class="podium-frame shadow">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTCJ22-kaUhZ0LCIROigXlaCUz6cEtpPBFYEoH9sSt5rhABJbtERfjCYn-reF4j6GUEHp2ZJRpBqQW8lrh4JjQcpn17HcYZtgLhrQu90HHZvZpYNQekNU367o1m9xMKy1DvYuDaK1kU_veg5cbMJe-B9pwtakABkBfz0wYRS7VoB-3HwsjVLo6s_TzziFG/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(1).webp" alt="Podium 3">
+                                <div class="podium-caption">AWARDING</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="content-5k" role="tabpanel">
+                
+                <div class="row g-4 justify-content-center">
+                    
+                    <div class="col-lg-5 col-md-6">
+                        <div class="champion-card shadow-lg">
+                            <div class="img-wrapper">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiTCJ22-kaUhZ0LCIROigXlaCUz6cEtpPBFYEoH9sSt5rhABJbtERfjCYn-reF4j6GUEHp2ZJRpBqQW8lrh4JjQcpn17HcYZtgLhrQu90HHZvZpYNQekNU367o1m9xMKy1DvYuDaK1kU_veg5cbMJe-B9pwtakABkBfz0wYRS7VoB-3HwsjVLo6s_TzziFG/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(1).webp" class="champion-img" alt="Men 5K Winner">
+                                <span class="category-badge">Men's 5K</span>
+                            </div>
+                            <div class="rank-1-badge">1</div>
+
+                            <div class="champion-info">
+                                <h2 class="champion-name">Doni Irawan</h2>
+                                <span class="champion-time">00:18:12</span>
+                                <div class="champion-meta">
+                                    <i class="bi bi-geo-alt-fill text-info me-1"></i> Kediri Fast Runners
+                                </div>
+
+                                <div class="podium-list text-start">
+                                    <div class="podium-item">
+                                        <div><span class="rank-small" style="background: var(--silver);">2</span> <span class="fw-bold">Erik Tohir</span></div>
+                                        <span class="font-monospace text-info">00:18:30</span>
+                                    </div>
+                                    <div class="podium-item">
+                                        <div><span class="rank-small" style="background: var(--bronze);">3</span> <span class="fw-bold">Farhan Halim</span></div>
+                                        <span class="font-monospace text-info">00:18:45</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5 col-md-6">
+                        <div class="champion-card shadow-lg">
+                            <div class="img-wrapper">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgQBjxjgxHO4nTmGwW_C27lLiMCle-ozTl_qa87N0BTf59bwuskpyoVFj5MYlddy1rweZaALTiQwfw0p7k2CI1IychADqu5WTY9J_RNZi_JAMR3FIR29FvS59umDfNFY1WztDnv29wNm-oyGJC0GwFoCvHHGwd3dI80qIjC_EAs_uNjHonKCteAOmsBnUBf/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(3).webp" class="champion-img" alt="Women 5K Winner">
+                                <span class="category-badge" style="border-color: #ff69b4; color: #ff69b4;">Women's 5K</span>
+                            </div>
+                            <div class="rank-1-badge">1</div>
+
+                            <div class="champion-info">
+                                <h2 class="champion-name">Siti Aminah</h2>
+                                <span class="champion-time">00:20:15</span>
+                                <div class="champion-meta">
+                                    <i class="bi bi-geo-alt-fill text-info me-1"></i> Waru Turi Local
+                                </div>
+
+                                <div class="podium-list text-start">
+                                    <div class="podium-item">
+                                        <div><span class="rank-small" style="background: var(--silver);">2</span> <span class="fw-bold">Tantri Kotak</span></div>
+                                        <span class="font-monospace text-info">00:20:40</span>
+                                    </div>
+                                    <div class="podium-item">
+                                        <div><span class="rank-small" style="background: var(--bronze);">3</span> <span class="fw-bold">Ussy Sulistia</span></div>
+                                        <span class="font-monospace text-info">00:21:00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="podium-highlights text-center">
+                    <h3 class="fst-italic fw-bold text-white-50 mb-4 text-uppercase">5K Podium Moments</h3>
+                    <div class="row justify-content-center g-3">
+                        <div class="col-md-4 col-6">
+                            <div class="podium-frame shadow">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgri0Il03f_vaIa7xRDM6epUKn4__STLHzPIlTozoJs-3ZR3bEPBMc9Rv_k4bObcxHf_oscugM0V0S5iebuAUbtuMatBU4Y6qbEbU-seK_jki4foCOOqPvOxtOqoJ-GsVam9ctCbnhyphenhyphen5ABiAr7AMGnrfwpIrww3YrWsVYScO5lMnIiIv_erDQnVDl8SbqJI/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(7).webp" alt="Podium 5K Men">
+                                <div class="podium-caption">MEN'S PODIUM</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-6">
+                            <div class="podium-frame shadow">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgGmcQkjhmFP7TFK45rrC4uAVYaHZomduheYmJKdirkh0R1dWQPRw60nJY-29KLm6kdanVnvu90ld5pCeLWX6rRP_-ic0cyDbJF3Rk4i1wpPe0oh-p_ql-K4WzPVeg6BIJTMby8PqD3ExKatz2iQ64VRHko9JcWXw82e7zheSztAXwAASfkhJlDsx3WowEU/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(9).webp" alt="Podium 5K Women">
+                                <div class="podium-caption">WOMEN'S PODIUM</div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-6">
+                            <div class="podium-frame shadow">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6dEPO38f8BG3TXuVYKcV2V5BuoIEgFs2J2w5FweNak3z7RnrQIsmsHnh6690tcWjp4DYS8RkLzl_yC-Up8uddL3E0DNGK_NAJs2n3YB5IhfrN6hk2-rb8IH8lbrTiHflKSw__AWqhIDtExiD4vaaPRU2o706v1p6iPhKmg-t8OI1-QeHuFAbzpZRU_3No/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(2).webp" alt="Awarding 5K">
+                                <div class="podium-caption">AWARDING</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="fw-bold text-white fst-italic mb-2">
+                        <i class="bi bi-trophy-fill text-warning me-2"></i> WARU TURI FUN RUN
+                    </div>
+                    <small class="text-white-50">&copy; 2026 Official Champions.</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

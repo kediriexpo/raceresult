@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Leaderboard - Waru Turi Fun Run 2026</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-dark: #001529;
+            --primary-blue: #003366;
+            --bright-blue: #0056b3;
+            --accent-cyan: #0dcaf0;
+            --section-bg-blue: #004080;
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- HEADER --- */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--bright-blue) 100%);
+            padding: 90px 0 40px 0;
+            border-bottom: 4px solid var(--accent-cyan);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .home-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            color: white;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .home-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            border-color: var(--accent-cyan);
+        }
+
+        /* --- TABS & CONTROLS --- */
+        .nav-pills .nav-link {
+            color: rgba(255,255,255,0.85); 
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            margin: 0 5px;
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+        
+        .nav-pills .nav-link:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--accent-cyan);
+            color: #001529 !important;
+            box-shadow: 0 0 15px rgba(13, 202, 240, 0.5);
+            border-color: var(--accent-cyan);
+        }
+
+        .search-container input {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white !important;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-weight: 600;
+        }
+        .search-container input:focus {
+            background: rgba(0,0,0,0.5);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.25);
+        }
+        .search-container input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* --- TABLE STYLING --- */
+        .leaderboard-card {
+            background: rgba(0, 51, 102, 0.7);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+        }
+
+        .table-custom {
+            margin-bottom: 0;
+            color: #ffffff;
+        }
+
+        .table-custom th {
+            background-color: #001020;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 800;
+            padding: 18px 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+        }
+
+        .table-custom td {
+            padding: 14px 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .table-custom tr:hover td {
+            background-color: rgba(13, 202, 240, 0.1);
+            color: #fff;
+        }
+
+        /* Rank Badges */
+        .rank-badge {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 900;
+            color: #000;
+            margin: 0 auto;
+            font-size: 0.95rem;
+        }
+        
+        .row-gold { background: linear-gradient(90deg, rgba(255, 215, 0, 0.2), transparent) !important; }
+        .row-silver { background: linear-gradient(90deg, rgba(192, 192, 192, 0.2), transparent) !important; }
+        .row-bronze { background: linear-gradient(90deg, rgba(205, 127, 50, 0.2), transparent) !important; }
+
+        .bg-gold { background-color: var(--gold); box-shadow: 0 0 10px var(--gold); }
+        .bg-silver { background-color: var(--silver); box-shadow: 0 0 10px var(--silver); }
+        .bg-bronze { background-color: var(--bronze); box-shadow: 0 0 10px var(--bronze); }
+        .bg-regular { background-color: rgba(255,255,255,0.2); color: white; font-weight: bold;}
+
+        .pace-badge {
+            background: #001529;
+            color: var(--accent-cyan);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: 'Courier New', monospace;
+            border: 1px solid var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        /* --- MOBILE RESPONSIVE ADJUSTMENTS --- */
+        @media (max-width: 768px) {
+            .page-header {
+                padding-top: 80px;
+                padding-bottom: 30px;
+            }
+            
+            /* Home Button Mobile */
+            .home-btn {
+                top: 20px;
+                left: 15px;
+                padding: 6px 15px;
+                font-size: 0.8rem;
+            }
+
+            /* Main Tabs Full Width */
+            .main-tabs-wrapper .nav-pills {
+                width: 100%;
+                display: flex;
+            }
+            .main-tabs-wrapper .nav-item {
+                flex: 1;
+                text-align: center;
+            }
+            .main-tabs-wrapper .nav-link {
+                margin: 0 2px;
+                padding: 12px 0;
+                width: 100%;
+                font-size: 0.9rem;
+            }
+
+            /* Search Bar Full Width */
+            .search-container {
+                margin-top: 15px;
+                justify-content: center !important;
+            }
+            .search-container .input-group {
+                max-width: 100% !important;
+                width: 100%;
+            }
+
+            /* Sub Tabs Full Width */
+            .sub-tab-container .nav-pills {
+                width: 100%;
+                display: flex;
+            }
+            .sub-tab-container .nav-item {
+                flex: 1;
+            }
+            .sub-tab-container .nav-link {
+                width: 100%;
+                margin: 0 2px;
+                padding: 8px 0;
+            }
+            
+            .table-custom th, .table-custom td {
+                padding: 12px 10px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="home-btn shadow">
+        <i class="bi bi-house-door-fill"></i> Homepage
+    </a>
+
+    <header class="page-header text-center">
+        <div class="container">
+            <h1 class="display-5 fw-bold fst-italic mb-1">FULL <span style="color: var(--accent-cyan);">LEADERBOARD</span></h1>
+            <p class="lead text-white-50 fs-6">Waru Turi Fun Run 2026</p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        
+        <div class="row align-items-center mb-3 g-2">
+            
+            <div class="col-lg-6 main-tabs-wrapper">
+                <ul class="nav nav-pills justify-content-center justify-content-lg-start" id="mainTab" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active shadow-sm" id="tab-10k-btn" data-bs-toggle="pill" data-bs-target="#pane-10k" type="button">10K Run</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link shadow-sm" id="tab-5k-btn" data-bs-toggle="pill" data-bs-target="#pane-5k" type="button">5K Run</button>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="search-container d-flex justify-content-lg-end justify-content-center">
+                    <div class="input-group shadow-sm" style="max-width: 350px;">
+                        <span class="input-group-text bg-dark border-secondary text-white-50"><i class="bi bi-search"></i></span>
+                        <input type="text" id="searchInput" class="form-control bg-dark text-white border-secondary" placeholder="Cari Nama / BIB...">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="leaderboard-card">
+            
+            <div class="tab-content" id="mainTabContent">
+                
+                <div class="tab-pane fade show active" id="pane-10k" role="tabpanel">
+                    <div class="sub-tab-container d-flex justify-content-center bg-black bg-opacity-25 p-3">
+                        <ul class="nav nav-pills nav-sm" id="subTab10k" role="tablist">
+                            <li class="nav-item">
+                                <button class="nav-link active py-2 fs-6" data-bs-toggle="pill" data-bs-target="#tbl-10k-men">Men's 10K</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link py-2 fs-6" data-bs-toggle="pill" data-bs-target="#tbl-10k-women">Women's 10K</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content">
+                        
+                        <div class="tab-pane fade show active" id="tbl-10k-men">
+                            <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                                <table class="table table-custom w-100">
+                                    <thead style="position: sticky; top: 0; z-index: 5;">
+                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th>Pace</th><th class="text-end">Gun Time</th></tr>
+                                    </thead>
+                                    <tbody id="body-10k-men">
+                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">1042</td><td class="fw-bold">Yoga Pratama</td><td>Indorunners SBY</td><td><span class="pace-badge">3:31</span></td><td class="text-end fw-bold text-warning">00:35:10</td></tr>
+                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">1105</td><td class="fw-bold">Budi Santoso</td><td>Kediri Runners</td><td><span class="pace-badge">3:40</span></td><td class="text-end fw-bold">00:36:45</td></tr>
+                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">1201</td><td class="fw-bold">Dedi Mulyadi</td><td>Solo Run</td><td><span class="pace-badge">3:44</span></td><td class="text-end fw-bold">00:37:20</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>1009</td><td>Eko Prasetyo</td><td>Free Runner</td><td><span class="pace-badge">3:48</span></td><td class="text-end font-monospace">00:38:05</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>1330</td><td>Fajar Nugroho</td><td>Malang Playon</td><td><span class="pace-badge">3:53</span></td><td class="text-end font-monospace">00:38:50</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>1150</td><td>Gilang Ramadhan</td><td>Waru Turi</td><td><span class="pace-badge">3:55</span></td><td class="text-end font-monospace">00:39:15</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tbl-10k-women">
+                            <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                                <table class="table table-custom w-100">
+                                    <thead style="position: sticky; top: 0; z-index: 5;">
+                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th>Pace</th><th class="text-end">Gun Time</th></tr>
+                                    </thead>
+                                    <tbody id="body-10k-women">
+                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">2001</td><td class="fw-bold">Rina Wijaya</td><td>Malang Playon</td><td><span class="pace-badge">4:00</span></td><td class="text-end fw-bold text-warning">00:40:05</td></tr>
+                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">2055</td><td class="fw-bold">Sari Indah</td><td>Indorunners</td><td><span class="pace-badge">4:10</span></td><td class="text-end fw-bold">00:41:40</td></tr>
+                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">2100</td><td class="fw-bold">Dewi Sartika</td><td>Kediri</td><td><span class="pace-badge">4:15</span></td><td class="text-end fw-bold">00:42:30</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>2088</td><td>Putri Ayu</td><td>Jakarta</td><td><span class="pace-badge">4:20</span></td><td class="text-end font-monospace">00:43:20</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>2301</td><td>Lina Marlina</td><td>Surabaya</td><td><span class="pace-badge">4:25</span></td><td class="text-end font-monospace">00:44:10</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>2220</td><td>Maya Safira</td><td>Gresik</td><td><span class="pace-badge">4:30</span></td><td class="text-end font-monospace">00:45:00</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="pane-5k" role="tabpanel">
+                    <div class="sub-tab-container d-flex justify-content-center bg-black bg-opacity-25 p-3">
+                        <ul class="nav nav-pills nav-sm" id="subTab5k" role="tablist">
+                            <li class="nav-item">
+                                <button class="nav-link active py-2 fs-6" data-bs-toggle="pill" data-bs-target="#tbl-5k-men">Men's 5K</button>
+                            </li>
+                            <li class="nav-item">
+                                <button class="nav-link py-2 fs-6" data-bs-toggle="pill" data-bs-target="#tbl-5k-women">Women's 5K</button>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="tab-content">
+                        
+                        <div class="tab-pane fade show active" id="tbl-5k-men">
+                            <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                                <table class="table table-custom w-100">
+                                    <thead style="position: sticky; top: 0; z-index: 5;">
+                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th>Pace</th><th class="text-end">Gun Time</th></tr>
+                                    </thead>
+                                    <tbody id="body-5k-men">
+                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">5010</td><td class="fw-bold">Doni Irawan</td><td>Kediri Fast</td><td><span class="pace-badge">3:38</span></td><td class="text-end fw-bold text-warning">00:18:12</td></tr>
+                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">5022</td><td class="fw-bold">Erik Tohir</td><td>Jakarta</td><td><span class="pace-badge">3:42</span></td><td class="text-end fw-bold">00:18:30</td></tr>
+                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">5099</td><td class="fw-bold">Farhan Halim</td><td>Bandung</td><td><span class="pace-badge">3:45</span></td><td class="text-end fw-bold">00:18:45</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>5100</td><td>Gatot Kaca</td><td>Waru Turi</td><td><span class="pace-badge">3:50</span></td><td class="text-end font-monospace">00:19:10</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>5201</td><td>Hendra Setiawan</td><td>Surabaya</td><td><span class="pace-badge">3:55</span></td><td class="text-end font-monospace">00:19:35</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>5305</td><td>Irfan Bachdim</td><td>Malang</td><td><span class="pace-badge">4:00</span></td><td class="text-end font-monospace">00:20:00</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="tbl-5k-women">
+                            <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+                                <table class="table table-custom w-100">
+                                    <thead style="position: sticky; top: 0; z-index: 5;">
+                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th>Pace</th><th class="text-end">Gun Time</th></tr>
+                                    </thead>
+                                    <tbody id="body-5k-women">
+                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">6001</td><td class="fw-bold">Siti Aminah</td><td>Waru Turi</td><td><span class="pace-badge">4:03</span></td><td class="text-end fw-bold text-warning">00:20:15</td></tr>
+                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">6020</td><td class="fw-bold">Tantri Kotak</td><td>Jakarta</td><td><span class="pace-badge">4:08</span></td><td class="text-end fw-bold">00:20:40</td></tr>
+                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">6100</td><td class="fw-bold">Ussy Sulistia</td><td>Malang</td><td><span class="pace-badge">4:12</span></td><td class="text-end fw-bold">00:21:00</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>6200</td><td>Vina Panduwinata</td><td>Surabaya</td><td><span class="pace-badge">4:18</span></td><td class="text-end font-monospace">00:21:30</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>6305</td><td>Wulan Guritno</td><td>Jakarta</td><td><span class="pace-badge">4:22</span></td><td class="text-end font-monospace">00:21:50</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>6400</td><td>Xena Warrior</td><td>Kediri</td><td><span class="pace-badge">4:28</span></td><td class="text-end font-monospace">00:22:20</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div> </div>
+    </div>
+
+    <footer>
+        <div class="container text-center">
+            <div class="fw-bold text-white fst-italic mb-2">
+                <i class="bi bi-trophy-fill text-warning me-2"></i> WARU TURI FUN RUN
+            </div>
+            <small class="text-white-50">&copy; 2026 Official Leaderboard.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            
+            searchInput.addEventListener('keyup', function() {
+                const query = searchInput.value.toLowerCase();
+                const rows = document.querySelectorAll('.table-custom tbody tr');
+
+                rows.forEach(row => {
+                    const bib = row.cells[1].textContent.toLowerCase();
+                    const name = row.cells[2].textContent.toLowerCase();
+
+                    if (bib.includes(query) || name.includes(query)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

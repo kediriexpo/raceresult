@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Results - Waru Turi Fun Run 2026</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-dark: #001529;
+            --primary-blue: #003366;
+            --bright-blue: #0056b3;
+            --accent-cyan: #0dcaf0;
+            --section-bg-blue: #004080;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* --- HEADER --- */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--bright-blue) 100%);
+            padding: 90px 0 50px 0;
+            border-bottom: 4px solid var(--accent-cyan);
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .home-btn {
+            position: absolute;
+            top: 30px; left: 30px;
+            color: white;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 8px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex; align-items: center; gap: 8px;
+            z-index: 10;
+        }
+        .home-btn:hover {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            border-color: var(--accent-cyan);
+        }
+
+        /* --- CONTROLS SECTION --- */
+        .filter-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            min-width: 100px;
+        }
+        .filter-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        .filter-btn.active {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 15px rgba(13, 202, 240, 0.4);
+        }
+
+        .search-input {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            border-radius: 50px;
+            padding: 12px 25px;
+            width: 100%;
+        }
+        .search-input:focus {
+            background: rgba(0,0,0,0.5);
+            border-color: var(--accent-cyan);
+            color: white;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(13, 202, 240, 0.2);
+        }
+
+        /* --- TABLE STYLING --- */
+        .result-card {
+            background: rgba(0, 51, 102, 0.7);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+        }
+
+        .table-custom {
+            margin-bottom: 0;
+            color: #ffffff;
+            width: 100%;
+        }
+
+        .table-custom th {
+            background-color: #001020;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            font-weight: 800;
+            padding: 18px 20px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            white-space: nowrap;
+        }
+
+        .table-custom td {
+            padding: 15px 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 1rem;
+        }
+
+        .table-custom tr:hover td {
+            background-color: rgba(13, 202, 240, 0.1);
+        }
+
+        /* Certificate Button */
+        .btn-cert {
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+            padding: 6px 15px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-cert:hover {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            box-shadow: 0 0 10px rgba(13, 202, 240, 0.5);
+        }
+
+        /* Category Badges */
+        .badge-cat {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            min-width: 60px;
+            display: inline-block;
+            text-align: center;
+        }
+        .badge-10k { background: rgba(255, 193, 7, 0.2); color: #ffc107; border: 1px solid #ffc107; }
+        .badge-5k { background: rgba(13, 202, 240, 0.2); color: #0dcaf0; border: 1px solid #0dcaf0; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header { padding-top: 80px; }
+            .home-btn { top: 20px; left: 15px; padding: 6px 15px; font-size: 0.8rem; }
+            
+            .controls-row {
+                flex-direction: column-reverse;
+                gap: 15px;
+            }
+            .filter-group {
+                display: flex;
+                width: 100%;
+                gap: 5px;
+            }
+            .filter-btn {
+                flex: 1;
+                padding: 10px 0;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="home-btn shadow">
+        <i class="bi bi-house-door-fill"></i> Homepage
+    </a>
+
+    <header class="page-header text-center">
+        <div class="container">
+            <h1 class="display-5 fw-bold fst-italic mb-1">RACE <span style="color: var(--accent-cyan);">RESULTS</span></h1>
+            <p class="lead text-white-50 fs-6">Daftar Lengkap Peserta & E-Certificate</p>
+        </div>
+    </header>
+
+    <div class="container mb-5">
+        
+        <div class="row mb-4 controls-row align-items-center">
+            <div class="col-md-6">
+                <div class="filter-group">
+                    <button class="filter-btn active" onclick="filterTable('all')">Show All</button>
+                    <button class="filter-btn" onclick="filterTable('10K')">10K</button>
+                    <button class="filter-btn" onclick="filterTable('5K')">5K</button>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="position-relative">
+                    <i class="bi bi-search position-absolute text-white-50" style="top: 14px; left: 20px;"></i>
+                    <input type="text" id="searchInput" class="search-input ps-5" placeholder="Cari Nama Peserta atau BIB...">
+                </div>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <div class="table-responsive" style="max-height: 700px; overflow-y: auto;">
+                <table class="table table-custom w-100" id="resultTable">
+                    <thead style="position: sticky; top: 0; z-index: 10;">
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th style="width: 100px;">BIB</th>
+                            <th>Nama Peserta</th>
+                            <th class="text-center" style="width: 100px;">Category</th>
+                            <th class="text-end" style="width: 180px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        </tbody>
+                </table>
+            </div>
+            <div id="noResults" class="text-center p-5 d-none">
+                <i class="bi bi-emoji-frown fs-1 text-white-50 mb-3 d-block"></i>
+                <h5 class="text-white-50">Data tidak ditemukan</h5>
+            </div>
+        </div>
+        
+        <div class="text-center mt-3">
+            <small class="text-white-50">*Menampilkan 100 Data Peserta Simulasi</small>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="container text-center py-4 border-top border-secondary border-opacity-25 mt-5">
+            <div class="fw-bold text-white fst-italic mb-1">
+                <i class="bi bi-trophy-fill text-warning me-2"></i> WARU TURI FUN RUN
+            </div>
+            <small class="text-white-50">&copy; 2026 Official Result Page.</small>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 1. Data Dummy Generator (100 Peserta)
+        const firstNames = ["Andi", "Budi", "Citra", "Dewi", "Eko", "Fajar", "Gita", "Hendra", "Indah", "Joko", "Kartika", "Lina", "Mario", "Nina", "Oscar", "Putri", "Rina", "Siti", "Tono", "Wawan"];
+        const lastNames = ["Saputra", "Santoso", "Wijaya", "Kurnia", "Pratama", "Nugroho", "Sari", "Gunawan", "Susilo", "Wibowo", "Hidayat", "Kusuma", "Lestari", "Ramadhan", "Setiawan"];
+        
+        let participants = [];
+
+        for (let i = 1; i <= 100; i++) {
+            // Random Category
+            const category = Math.random() > 0.5 ? '10K' : '5K';
+            
+            // BIB Logic: 10K starts with 1, 5K starts with 5
+            let bibPrefix = category === '10K' ? 1000 : 5000;
+            let bib = bibPrefix + i;
+
+            // Random Name
+            const fName = firstNames[Math.floor(Math.random() * firstNames.length)];
+            const lName = lastNames[Math.floor(Math.random() * lastNames.length)];
+            const fullName = `${fName} ${lName}`;
+
+            participants.push({
+                id: i,
+                bib: bib,
+                name: fullName,
+                category: category,
+                // Placeholder Link Google Drive (Anda bisa ganti logic ini nanti)
+                link: "https://drive.google.com/drive/u/0/" 
+            });
+        }
+
+        // 2. Render Function
+        const tableBody = document.getElementById('tableBody');
+        const noResults = document.getElementById('noResults');
+
+        function renderTable(data) {
+            tableBody.innerHTML = ""; // Clear existing
+            
+            if (data.length === 0) {
+                noResults.classList.remove('d-none');
+            } else {
+                noResults.classList.add('d-none');
+                
+                data.forEach((p, index) => {
+                    const catBadge = p.category === '10K' 
+                        ? '<span class="badge-cat badge-10k">10K</span>' 
+                        : '<span class="badge-cat badge-5k">5K</span>';
+
+                    const row = `
+                        <tr>
+                            <td class="text-white-50">${index + 1}</td>
+                            <td class="fw-bold font-monospace text-info">${p.bib}</td>
+                            <td class="fw-bold">${p.name}</td>
+                            <td class="text-center">${catBadge}</td>
+                            <td class="text-end">
+                                <a href="${p.link}" target="_blank" class="btn-cert">
+                                    <i class="bi bi-download"></i> Certificate
+                                </a>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            }
+        }
+
+        // Initial Render
+        renderTable(participants);
+
+        // 3. Filter Logic (Category)
+        let currentCategory = 'all';
+
+        function filterTable(category) {
+            currentCategory = category;
+            
+            // Visual Active State for Buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent.toLowerCase().includes(category.toLowerCase()) || 
+                   (category === 'all' && btn.textContent === 'Show All')) {
+                    btn.classList.add('active');
+                }
+            });
+
+            applyFilters();
+        }
+
+        // 4. Search Logic
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('keyup', applyFilters);
+
+        // Combined Filter Function
+        function applyFilters() {
+            const query = searchInput.value.toLowerCase();
+            
+            const filteredData = participants.filter(p => {
+                // Check Category
+                const matchCat = currentCategory === 'all' || p.category === currentCategory;
+                
+                // Check Search (Name or BIB)
+                const matchSearch = p.name.toLowerCase().includes(query) || 
+                                    p.bib.toString().includes(query);
+
+                return matchCat && matchSearch;
+            });
+
+            renderTable(filteredData);
+        }
+
+    </script>
+</body>
+</html>
