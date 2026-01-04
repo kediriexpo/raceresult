@@ -171,15 +171,62 @@
         .bg-bronze { background-color: var(--bronze); box-shadow: 0 0 10px var(--bronze); }
         .bg-regular { background-color: rgba(255,255,255,0.2); color: white; font-weight: bold;}
 
-        .pace-badge {
-            background: #001529;
+        /* --- GALLERY SECTION --- */
+        .gallery-section {
+            padding: 60px 0;
+            background: rgba(0,0,0,0.2);
+        }
+        .gallery-title {
             color: var(--accent-cyan);
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-family: 'Courier New', monospace;
-            border: 1px solid var(--accent-cyan);
-            font-weight: bold;
+            font-weight: 800;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+        }
+        .gallery-title::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 3px;
+            background: white;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+        .gallery-img-wrapper {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            height: 250px;
+        }
+        .gallery-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .gallery-img-wrapper:hover img {
+            transform: scale(1.1);
+        }
+
+        /* --- SPONSORSHIP SECTION (REVISED: CLEAN NO EFFECTS) --- */
+        .sponsor-section {
+            padding: 50px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: var(--primary-dark);
+        }
+        /* Wrapper hanya untuk membatasi lebar dan posisi */
+        .sponsor-banner-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        /* Style untuk satu gambar besar - TANPA EFEK */
+        .sponsor-banner-img {
+            width: 100%;
+            height: auto;
+            /* Menghapus filter grayscale/opacity dan background */
+            border-radius: 10px; /* Sedikit rounded agar rapi */
         }
 
         /* --- MOBILE RESPONSIVE ADJUSTMENTS --- */
@@ -188,16 +235,12 @@
                 padding-top: 80px;
                 padding-bottom: 30px;
             }
-            
-            /* Home Button Mobile */
             .home-btn {
                 top: 20px;
                 left: 15px;
                 padding: 6px 15px;
                 font-size: 0.8rem;
             }
-
-            /* Main Tabs Full Width */
             .main-tabs-wrapper .nav-pills {
                 width: 100%;
                 display: flex;
@@ -212,8 +255,6 @@
                 width: 100%;
                 font-size: 0.9rem;
             }
-
-            /* Search Bar Full Width */
             .search-container {
                 margin-top: 15px;
                 justify-content: center !important;
@@ -222,8 +263,6 @@
                 max-width: 100% !important;
                 width: 100%;
             }
-
-            /* Sub Tabs Full Width */
             .sub-tab-container .nav-pills {
                 width: 100%;
                 display: flex;
@@ -236,7 +275,6 @@
                 margin: 0 2px;
                 padding: 8px 0;
             }
-            
             .table-custom th, .table-custom td {
                 padding: 12px 10px;
                 font-size: 0.85rem;
@@ -304,15 +342,15 @@
                             <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
                                 <table class="table table-custom w-100">
                                     <thead style="position: sticky; top: 0; z-index: 5;">
-                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th>Pace</th><th class="text-end">Gun Time</th></tr>
+                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th class="text-end">Time</th></tr>
                                     </thead>
                                     <tbody id="body-10k-men">
-                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">1042</td><td class="fw-bold">Yoga Pratama</td><td>Indorunners SBY</td><td><span class="pace-badge">3:31</span></td><td class="text-end fw-bold text-warning">00:35:10</td></tr>
-                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">1105</td><td class="fw-bold">Budi Santoso</td><td>Kediri Runners</td><td><span class="pace-badge">3:40</span></td><td class="text-end fw-bold">00:36:45</td></tr>
-                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">1201</td><td class="fw-bold">Dedi Mulyadi</td><td>Solo Run</td><td><span class="pace-badge">3:44</span></td><td class="text-end fw-bold">00:37:20</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>1009</td><td>Eko Prasetyo</td><td>Free Runner</td><td><span class="pace-badge">3:48</span></td><td class="text-end font-monospace">00:38:05</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>1330</td><td>Fajar Nugroho</td><td>Malang Playon</td><td><span class="pace-badge">3:53</span></td><td class="text-end font-monospace">00:38:50</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>1150</td><td>Gilang Ramadhan</td><td>Waru Turi</td><td><span class="pace-badge">3:55</span></td><td class="text-end font-monospace">00:39:15</td></tr>
+                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">1042</td><td class="fw-bold">Yoga Pratama</td><td>Indorunners SBY</td><td class="text-end fw-bold text-warning">00:35:10</td></tr>
+                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">1105</td><td class="fw-bold">Budi Santoso</td><td>Kediri Runners</td><td class="text-end fw-bold">00:36:45</td></tr>
+                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">1201</td><td class="fw-bold">Dedi Mulyadi</td><td>Solo Run</td><td class="text-end fw-bold">00:37:20</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>1009</td><td>Eko Prasetyo</td><td>Free Runner</td><td class="text-end font-monospace">00:38:05</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>1330</td><td>Fajar Nugroho</td><td>Malang Playon</td><td class="text-end font-monospace">00:38:50</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>1150</td><td>Gilang Ramadhan</td><td>Waru Turi</td><td class="text-end font-monospace">00:39:15</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -322,15 +360,15 @@
                             <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
                                 <table class="table table-custom w-100">
                                     <thead style="position: sticky; top: 0; z-index: 5;">
-                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th>Pace</th><th class="text-end">Gun Time</th></tr>
+                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th class="text-end">Time</th></tr>
                                     </thead>
                                     <tbody id="body-10k-women">
-                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">2001</td><td class="fw-bold">Rina Wijaya</td><td>Malang Playon</td><td><span class="pace-badge">4:00</span></td><td class="text-end fw-bold text-warning">00:40:05</td></tr>
-                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">2055</td><td class="fw-bold">Sari Indah</td><td>Indorunners</td><td><span class="pace-badge">4:10</span></td><td class="text-end fw-bold">00:41:40</td></tr>
-                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">2100</td><td class="fw-bold">Dewi Sartika</td><td>Kediri</td><td><span class="pace-badge">4:15</span></td><td class="text-end fw-bold">00:42:30</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>2088</td><td>Putri Ayu</td><td>Jakarta</td><td><span class="pace-badge">4:20</span></td><td class="text-end font-monospace">00:43:20</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>2301</td><td>Lina Marlina</td><td>Surabaya</td><td><span class="pace-badge">4:25</span></td><td class="text-end font-monospace">00:44:10</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>2220</td><td>Maya Safira</td><td>Gresik</td><td><span class="pace-badge">4:30</span></td><td class="text-end font-monospace">00:45:00</td></tr>
+                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">2001</td><td class="fw-bold">Rina Wijaya</td><td>Malang Playon</td><td class="text-end fw-bold text-warning">00:40:05</td></tr>
+                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">2055</td><td class="fw-bold">Sari Indah</td><td>Indorunners</td><td class="text-end fw-bold">00:41:40</td></tr>
+                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">2100</td><td class="fw-bold">Dewi Sartika</td><td>Kediri</td><td class="text-end fw-bold">00:42:30</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>2088</td><td>Putri Ayu</td><td>Jakarta</td><td class="text-end font-monospace">00:43:20</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>2301</td><td>Lina Marlina</td><td>Surabaya</td><td class="text-end font-monospace">00:44:10</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>2220</td><td>Maya Safira</td><td>Gresik</td><td class="text-end font-monospace">00:45:00</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -356,15 +394,15 @@
                             <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
                                 <table class="table table-custom w-100">
                                     <thead style="position: sticky; top: 0; z-index: 5;">
-                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th>Pace</th><th class="text-end">Gun Time</th></tr>
+                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th class="text-end">Time</th></tr>
                                     </thead>
                                     <tbody id="body-5k-men">
-                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">5010</td><td class="fw-bold">Doni Irawan</td><td>Kediri Fast</td><td><span class="pace-badge">3:38</span></td><td class="text-end fw-bold text-warning">00:18:12</td></tr>
-                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">5022</td><td class="fw-bold">Erik Tohir</td><td>Jakarta</td><td><span class="pace-badge">3:42</span></td><td class="text-end fw-bold">00:18:30</td></tr>
-                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">5099</td><td class="fw-bold">Farhan Halim</td><td>Bandung</td><td><span class="pace-badge">3:45</span></td><td class="text-end fw-bold">00:18:45</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>5100</td><td>Gatot Kaca</td><td>Waru Turi</td><td><span class="pace-badge">3:50</span></td><td class="text-end font-monospace">00:19:10</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>5201</td><td>Hendra Setiawan</td><td>Surabaya</td><td><span class="pace-badge">3:55</span></td><td class="text-end font-monospace">00:19:35</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>5305</td><td>Irfan Bachdim</td><td>Malang</td><td><span class="pace-badge">4:00</span></td><td class="text-end font-monospace">00:20:00</td></tr>
+                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">5010</td><td class="fw-bold">Doni Irawan</td><td>Kediri Fast</td><td class="text-end fw-bold text-warning">00:18:12</td></tr>
+                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">5022</td><td class="fw-bold">Erik Tohir</td><td>Jakarta</td><td class="text-end fw-bold">00:18:30</td></tr>
+                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">5099</td><td class="fw-bold">Farhan Halim</td><td>Bandung</td><td class="text-end fw-bold">00:18:45</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>5100</td><td>Gatot Kaca</td><td>Waru Turi</td><td class="text-end font-monospace">00:19:10</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>5201</td><td>Hendra Setiawan</td><td>Surabaya</td><td class="text-end font-monospace">00:19:35</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>5305</td><td>Irfan Bachdim</td><td>Malang</td><td class="text-end font-monospace">00:20:00</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -374,15 +412,15 @@
                             <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
                                 <table class="table table-custom w-100">
                                     <thead style="position: sticky; top: 0; z-index: 5;">
-                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th>Pace</th><th class="text-end">Gun Time</th></tr>
+                                        <tr><th class="text-center">Rank</th><th>BIB</th><th>Name</th><th>City</th><th class="text-end">Time</th></tr>
                                     </thead>
                                     <tbody id="body-5k-women">
-                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">6001</td><td class="fw-bold">Siti Aminah</td><td>Waru Turi</td><td><span class="pace-badge">4:03</span></td><td class="text-end fw-bold text-warning">00:20:15</td></tr>
-                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">6020</td><td class="fw-bold">Tantri Kotak</td><td>Jakarta</td><td><span class="pace-badge">4:08</span></td><td class="text-end fw-bold">00:20:40</td></tr>
-                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">6100</td><td class="fw-bold">Ussy Sulistia</td><td>Malang</td><td><span class="pace-badge">4:12</span></td><td class="text-end fw-bold">00:21:00</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>6200</td><td>Vina Panduwinata</td><td>Surabaya</td><td><span class="pace-badge">4:18</span></td><td class="text-end font-monospace">00:21:30</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>6305</td><td>Wulan Guritno</td><td>Jakarta</td><td><span class="pace-badge">4:22</span></td><td class="text-end font-monospace">00:21:50</td></tr>
-                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>6400</td><td>Xena Warrior</td><td>Kediri</td><td><span class="pace-badge">4:28</span></td><td class="text-end font-monospace">00:22:20</td></tr>
+                                        <tr class="row-gold"><td class="text-center"><div class="rank-badge bg-gold">1</div></td><td class="fw-bold text-info">6001</td><td class="fw-bold">Siti Aminah</td><td>Waru Turi</td><td class="text-end fw-bold text-warning">00:20:15</td></tr>
+                                        <tr class="row-silver"><td class="text-center"><div class="rank-badge bg-silver">2</div></td><td class="fw-bold text-info">6020</td><td class="fw-bold">Tantri Kotak</td><td>Jakarta</td><td class="text-end fw-bold">00:20:40</td></tr>
+                                        <tr class="row-bronze"><td class="text-center"><div class="rank-badge bg-bronze">3</div></td><td class="fw-bold text-info">6100</td><td class="fw-bold">Ussy Sulistia</td><td>Malang</td><td class="text-end fw-bold">00:21:00</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">4</div></td><td>6200</td><td>Vina Panduwinata</td><td>Surabaya</td><td class="text-end font-monospace">00:21:30</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">5</div></td><td>6305</td><td>Wulan Guritno</td><td>Jakarta</td><td class="text-end font-monospace">00:21:50</td></tr>
+                                        <tr><td class="text-center"><div class="rank-badge bg-regular">6</div></td><td>6400</td><td>Xena Warrior</td><td>Kediri</td><td class="text-end font-monospace">00:22:20</td></tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -391,11 +429,46 @@
                     </div>
                 </div>
 
-            </div> </div>
+            </div> 
+        </div>
     </div>
 
-    <footer>
+    <section class="gallery-section">
         <div class="container text-center">
+            <h2 class="gallery-title h3">Highlights</h2>
+            <div class="row g-4 mt-2">
+                <div class="col-md-4">
+                    <div class="gallery-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=600&auto=format&fit=crop&q=60" alt="Run 1">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1452626038306-9aae5e071dd3?w=600&auto=format&fit=crop&q=60" alt="Run 2">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-img-wrapper">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh6dEPO38f8BG3TXuVYKcV2V5BuoIEgFs2J2w5FweNak3z7RnrQIsmsHnh6690tcWjp4DYS8RkLzl_yC-Up8uddL3E0DNGK_NAJs2n3YB5IhfrN6hk2-rb8IH8lbrTiHflKSw__AWqhIDtExiD4vaaPRU2o706v1p6iPhKmg-t8OI1-QeHuFAbzpZRU_3No/w640-h426-rw/Waru%20Turi%20Fun%20Run%202026%20(2).webp" alt="Run 3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sponsor-section text-center">
+        <div class="container">
+            <p class="text-white-50 small text-uppercase fw-bold mb-3">Supported By</p>
+            
+            <div class="sponsor-banner-wrapper">
+                <img src="img/sponsorship.webp" alt="All Official Sponsors" class="img-fluid sponsor-banner-img">
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container text-center py-4">
             <div class="fw-bold text-white fst-italic mb-2">
                 <i class="bi bi-trophy-fill text-warning me-2"></i> WARU TURI FUN RUN
             </div>
